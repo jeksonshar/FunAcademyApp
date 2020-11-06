@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Привет мир!</string>
+    <string name="next">Следующая</string>
+    <string name="hello_this_is_second_activity">Привет, это вторая активити</string>
+    <string name="this_values_was_transmitted_from_main_activity">Эти значения были переданы из MainActivity</string>
+    <string name="transmitted_string"> - переданная String = </string>
+    <string name="transmitted_int"> - переданная Int = </string>
+    <string name="transmitted_boolean"> - переданная Boolean = </string>
+</resources>
