@@ -1,10 +1,4 @@
 <resources>
     <string name="app_name" translatable="false">FunAcademyApp</string>
     <string name="hello">Hello world!</string>
-    <string name="next">NEXT</string>
-    <string name="hello_this_is_second_activity">Hello, this is second activity</string>
-    <string name="this_values_was_transmitted_from_main_activity">This values was transmitted from MainActivity</string>
-    <string name="transmitted_string"> - transmitted String = </string>
-    <string name="transmitted_int"> - transmitted Int = </string>
-    <string name="transmitted_boolean"> - transmitted Boolean = </string>
 </resources>
