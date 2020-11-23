@@ -30,4 +30,6 @@
 
     <dimen name="indent_height">16dp</dimen>
 
+    <dimen name="radius_4">4dp</dimen>
+
 </resources>
