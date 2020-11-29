@@ -1,24 +1,31 @@
 package com.jeksonshar.funacademyapp
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MovieFragmentClickListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val nextButton: Button = findViewById(R.id.next_button)
-
-        nextButton.setOnClickListener { moveToNextScreen() }
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, MoviesListFragment(), CURRENT_FRAGMENT_TAG)
+                .commit()
+        } else {
+            supportFragmentManager.findFragmentByTag(CURRENT_FRAGMENT_TAG)
+        }
     }
 
-    private fun moveToNextScreen() {
-        val intent = Intent(this, MovieDetailsActivity::class.java)
+    override fun addMovieDetailFragment() {
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .add(R.id.fragment_container, MoviesDetailsFragment())
+            .commit()
+    }
 
-        startActivity(intent)
+    companion object {
+        const val CURRENT_FRAGMENT_TAG = "CurrentFragment"
     }
 }

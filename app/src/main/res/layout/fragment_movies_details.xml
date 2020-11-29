@@ -88,7 +88,6 @@
             android:text="@string/tag_movie"
             android:textColor="@color/red"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_movie_view" />
 

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="app_default_text_40">40sp</dimen>
+    <dimen name="app_default_text_8">8sp</dimen>
     <dimen name="app_default_text_12">12sp</dimen>
+    <dimen name="app_default_text_14">14sp</dimen>
 
     <dimen name="main_margin_start_16">16dp</dimen>
     <dimen name="app_margin_start_4">4dp</dimen>
@@ -29,5 +31,11 @@
     <dimen name="height_path_back_view">10dp</dimen>
 
     <dimen name="indent_height">16dp</dimen>
+
+    <dimen name="radius_4">4dp</dimen>
+    <dimen name="radius_6">6dp</dimen>
+    <dimen name="radius_8">8dp</dimen>
+
+    <dimen name="border_1">1dp</dimen>
 
 </resources>
