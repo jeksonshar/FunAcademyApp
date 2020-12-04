@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ic_background"
-    tools:context=".MoviesDetailsFragment">
+    tools:context=".MovieDetailsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,21 +19,19 @@
             android:layout_height="298dp"
             android:contentDescription="@string/background_movie"
             android:scaleType="centerCrop"
-            android:src="@drawable/gradient_mask"
-            android:background="@drawable/orig"
+            android:src="@drawable/orig"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:id="@+id/backButton"
+            android:id="@+id/jump_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/main_margin_start_16"
             android:layout_marginTop="@dimen/app_margin_top_62"
             android:gravity="center"
             android:padding="@dimen/default_padding_4"
-            android:background="@drawable/bg_movie_rating"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -55,20 +53,18 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/ageCategoryMovie"
+            android:id="@+id/rating_movie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/main_margin_start_16"
             android:layout_marginTop="@dimen/app_margin_top_226"
-            android:padding="@dimen/default_padding_4"
             android:text="@string/rating_movie"
             android:textColor="@color/white"
-            android:background="@drawable/bg_movie_rating"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/nameMovieView"
+            android:id="@+id/name_movie_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/main_margin_start_16"
@@ -92,8 +88,9 @@
             android:text="@string/tag_movie"
             android:textColor="@color/red"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameMovieView" />
+            app:layout_constraintTop_toBottomOf="@+id/name_movie_view" />
 
         <ImageView
             android:id="@+id/star_1"
@@ -151,7 +148,7 @@
             app:layout_constraintTop_toBottomOf="@id/tag_movie_view" />
 
         <TextView
-            android:id="@+id/reviews_movie_view"
+            android:id="@+id/review_movie_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/app_margin_start_8"
@@ -173,7 +170,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/reviews_movie_view" />
+            app:layout_constraintTop_toBottomOf="@id/review_movie_view" />
 
         <TextView
             android:id="@+id/description_movie_view"
