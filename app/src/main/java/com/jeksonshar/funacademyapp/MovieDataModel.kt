@@ -1,10 +1,10 @@
 package com.jeksonshar.funacademyapp
 
-import android.widget.ImageView
+import java.util.*
 
 data class MovieDataModel(
-    val name: String,
-    val avatar: Int,
+    val nameMovie: String,
+    val avatarMovie: Int,
     val ageCategoryMovie: String,
     val tagMovie: String,
     val ratingMovie: Int,
@@ -18,5 +18,6 @@ data class MovieDataModel(
 //    val movieActorName2: String,
 //    val movieActorName3: String,
 //    val movieActorName4: String,
-//    val movieDuration: String
+    val durationMovie: String,
+    val idMovie: UUID = UUID.randomUUID()
 )
