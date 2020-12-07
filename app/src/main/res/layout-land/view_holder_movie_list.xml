@@ -33,7 +33,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:src="@drawable/movie_list_image1" />
+            tools:src="@drawable/movie_list_image1"
+            android:foreground="@drawable/gradient_mask"/>
+
+        <LinearLayout
+            android:id="@+id/isFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/app_margin_top_10"
+            android:paddingEnd="@dimen/main_margin_end_16"
+            android:paddingBottom="@dimen/main_margin_start_16"
+            android:paddingStart="@dimen/main_margin_start_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <ImageView
+                android:id="@+id/favoriteImage"
+                android:layout_width="24dp"
+                android:layout_height="21dp"
+                android:src="@drawable/like_on" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/ageCategoryMovieListView"

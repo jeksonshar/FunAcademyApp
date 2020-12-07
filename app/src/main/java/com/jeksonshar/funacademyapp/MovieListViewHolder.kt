@@ -5,9 +5,9 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.properties.Delegates
+import com.jeksonshar.funacademyapp.data.MovieDataModel
 
-class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view){
+class MovieListViewHolder(view: View) : RecyclerView.ViewHolder(view){
 
     private val movieImage = view.findViewById<ImageView>(R.id.movieOfListImage)
     private val ageCategoryMovieView = view.findViewById<TextView>(R.id.ageCategoryMovieListView)
@@ -16,6 +16,7 @@ class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view){
     private val reviewsMovieView = view.findViewById<TextView>(R.id.reviewMovieListView)
     private val nameOfMovieView = view.findViewById<TextView>(R.id.nameOfMovieListView)
     private val durationMovieView = view.findViewById<TextView>(R.id.durationMovieView)
+    private val isLiked = view.findViewById<ImageView>(R.id.favoriteImage)
 
     fun onBind(movie: MovieDataModel) {
         movieImage.setImageResource(movie.avatarMovie)
@@ -25,6 +26,10 @@ class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view){
         reviewsMovieView.text = movie.numberReviewsMovie
         nameOfMovieView.text = movie.nameMovie
         durationMovieView.text = movie.durationMovie
+        if (movie.isFavorite) {
+            isLiked.setImageResource(R.drawable.like_on)
+        } else {
+            isLiked.setImageResource(R.drawable.like_off)
+        }
     }
-
 }

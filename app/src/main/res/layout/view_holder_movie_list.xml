@@ -5,8 +5,8 @@
     android:id="@+id/movieItemList"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/app_margin_end_8"
-    android:layout_marginBottom="@dimen/app_padding_bottom_8"
+    android:layout_marginEnd="@dimen/app_margin_top_10"
+    android:layout_marginBottom="@dimen/app_margin_top_10"
     android:background="@drawable/layout_list_bg">
 
     <ImageView
@@ -17,11 +17,34 @@
         android:layout_marginEnd="2dp"
         android:contentDescription="@string/image_view"
         tools:src="@drawable/movie_list_image1"
+        android:foreground="@drawable/gradient_mask"
         app:layout_constraintBottom_toTopOf="@+id/nameOfMovieListView"
         app:layout_constraintDimensionRatio="166:248"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/isFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/app_margin_top_10"
+        android:paddingEnd="@dimen/main_margin_end_16"
+        android:paddingBottom="@dimen/app_margin_top_24"
+        android:paddingStart="@dimen/app_margin_top_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/favoriteImage"
+            android:layout_width="24dp"
+            android:layout_height="21dp"
+            android:src="@drawable/like_on" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/ageCategoryMovieListView"

@@ -1,23 +1,18 @@
-package com.jeksonshar.funacademyapp
+package com.jeksonshar.funacademyapp.data
 
 import java.util.*
 
 data class MovieDataModel(
     val nameMovie: String,
     val avatarMovie: Int,
+    val avatarMovieForDetail: Int,
     val ageCategoryMovie: String,
     val tagMovie: String,
     val ratingMovie: Int,
     val numberReviewsMovie: String,
     val descriptionMovies: String,
-//    val movieActor1: ImageView,
-//    val movieActor2: ImageView,
-//    val movieActor3: ImageView,
-//    val movieActor4: ImageView,
-//    val movieActorName1: String,
-//    val movieActorName2: String,
-//    val movieActorName3: String,
-//    val movieActorName4: String,
     val durationMovie: String,
+    var isFavorite: Boolean,
+    val actorsMovie: List<MovieActorModel>,
     val idMovie: UUID = UUID.randomUUID()
 )
