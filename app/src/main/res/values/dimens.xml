@@ -5,27 +5,23 @@
     <dimen name="app_default_text_12">12sp</dimen>
     <dimen name="app_default_text_14">14sp</dimen>
 
-    <dimen name="main_margin_start_16">16dp</dimen>
-    <dimen name="app_margin_start_4">4dp</dimen>
-    <dimen name="app_margin_start_8">8dp</dimen>
-
-    <dimen name="main_margin_end_16">16dp</dimen>
-    <dimen name="app_margin_end_8">8dp</dimen>
-
-    <dimen name="main_margin_top_16">16dp</dimen>
-    <dimen name="app_margin_top_4">4dp</dimen>
-    <dimen name="app_margin_top_6">6dp</dimen>
-    <dimen name="app_margin_top_8">8dp</dimen>
-    <dimen name="app_margin_top_10">10dp</dimen>
-    <dimen name="app_margin_top_24">24dp</dimen>
-    <dimen name="app_margin_top_28">28dp</dimen>
+    <dimen name="app_margin_2">2dp</dimen>
+    <dimen name="app_margin_4">4dp</dimen>
+    <dimen name="app_margin_6">6dp</dimen>
+    <dimen name="app_margin_8">8dp</dimen>
+    <dimen name="app_margin_10">10dp</dimen>
+    <dimen name="app_margin_12">12dp</dimen>
+    <dimen name="app_margin_16">16dp</dimen>
+    <dimen name="app_margin_20">20dp</dimen>
+    <dimen name="app_margin_24">24dp</dimen>
+    <dimen name="app_margin_28">28dp</dimen>
     <dimen name="app_margin_top_62">62dp</dimen>
     <dimen name="app_margin_top_226">226dp</dimen>
     <dimen name="app_margin_top_254">254dp</dimen>
 
-    <dimen name="default_padding_4">4dp</dimen>
-    <dimen name="app_padding_top_8">8dp</dimen>
-    <dimen name="app_padding_bottom_8">8dp</dimen>
+    <dimen name="app_padding_2">2dp</dimen>
+    <dimen name="app_padding_4">4dp</dimen>
+    <dimen name="app_padding_8">8dp</dimen>
 
     <dimen name="width_path_back_view">6dp</dimen>
     <dimen name="height_path_back_view">10dp</dimen>
