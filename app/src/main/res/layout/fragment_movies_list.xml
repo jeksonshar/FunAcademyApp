@@ -10,7 +10,7 @@
         android:id="@+id/titleOfList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/app_margin_top_24"
+        android:layout_marginTop="@dimen/app_margin_24"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/movieList"
@@ -20,12 +20,12 @@
 
         <ImageView
             android:id="@+id/imageViewOfList"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="@dimen/main_margin_start_16"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="@dimen/app_margin_end_8"
-            android:layout_marginBottom="12dp"
+            android:layout_width="@dimen/app_margin_16"
+            android:layout_height="@dimen/app_margin_16"
+            android:layout_marginStart="@dimen/app_margin_16"
+            android:layout_marginTop="@dimen/app_margin_12"
+            android:layout_marginEnd="@dimen/app_margin_8"
+            android:layout_marginBottom="@dimen/app_margin_12"
             android:contentDescription="@string/image_view"
             android:src="@drawable/target_shape" />
 
@@ -43,8 +43,8 @@
         android:id="@+id/movieList"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/app_margin_top_10"
-        android:layout_marginTop="@dimen/main_margin_top_16"
+        android:layout_marginStart="@dimen/app_margin_10"
+        android:layout_marginTop="@dimen/app_margin_16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
