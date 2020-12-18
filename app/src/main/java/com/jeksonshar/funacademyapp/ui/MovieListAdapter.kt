@@ -1,19 +1,22 @@
-package com.jeksonshar.funacademyapp
+package com.jeksonshar.funacademyapp.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.jeksonshar.funacademyapp.R
+import com.jeksonshar.funacademyapp.data.Movie
 import com.jeksonshar.funacademyapp.data.MovieDataModel
+import kotlinx.coroutines.Job
 
 class MovieListAdapter(
     private val listener: MovieFragmentClickListener?,
-    var movieList: List<MovieDataModel>
+    var movieList: List<Movie>
     ) : RecyclerView.Adapter<MovieListViewHolder>() {
 
     override fun getItemCount(): Int = movieList.size
 
-    private fun getItem(position: Int): MovieDataModel = movieList[position]
+    private fun getItem(position: Int): Movie = movieList[position]
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {

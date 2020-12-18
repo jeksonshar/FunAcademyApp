@@ -1,4 +1,4 @@
-package com.jeksonshar.funacademyapp
+package com.jeksonshar.funacademyapp.ui
 
 import android.content.Context
 import android.content.res.Configuration
@@ -10,14 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jeksonshar.funacademyapp.data.MovieDataModel
-import com.jeksonshar.funacademyapp.data.MoviesDataSource
-import java.util.*
+import com.jeksonshar.funacademyapp.R
+import com.jeksonshar.funacademyapp.data.Movie
+import com.jeksonshar.funacademyapp.data.loadMovies
+import kotlinx.coroutines.*
 
 class MoviesListFragment: Fragment() {
 
-//    private var clickListener: MovieFragmentClickListener? = null
     private var recycler: RecyclerView? = null
+    private var scope = CoroutineScope(Dispatchers.IO + Job())
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -29,8 +30,15 @@ class MoviesListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recycler = view.findViewById(R.id.movieList)
-        val movieList = MoviesDataSource.getMovies(view)
-        recycler?.adapter = MovieListAdapter(clickListener, movieList)
+
+        scope.launch {
+            val deffer = scope.async { loadMovies(requireContext()) }
+            val movieList: List<Movie> = deffer.await()
+            scope.launch(Dispatchers.Main) {
+                recycler?.adapter = MovieListAdapter(clickListener, movieList)
+            }
+        }
+
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             recycler?.layoutManager = GridLayoutManager(view.context,2)
         } else {
@@ -51,14 +59,18 @@ class MoviesListFragment: Fragment() {
     }
 
     private var clickListener: MovieFragmentClickListener? = object : MovieFragmentClickListener {
-        override fun addMovieDetailFragment(movie: MovieDataModel) {
-            fragmentManager?.beginTransaction()
-                ?.addToBackStack(null)
-                ?.replace(R.id.fragment_container, MovieDetailsFragment.newInstance(movie.nameMovie))
-                ?.commit()
+
+        override fun addMovieDetailFragment(movie: Movie) {
+            parentFragmentManager.beginTransaction()
+                .addToBackStack(null)
+                .replace(
+                    R.id.fragment_container,
+                    MovieDetailsFragment.newInstance(movie.id)
+                )
+                .commit()
         }
 
-        override fun changeFavoriteValue(movie: MovieDataModel) {
+        override fun changeFavoriteValue(movie: Movie) {
             movie.isFavorite = !movie.isFavorite
         }
     }

@@ -57,6 +57,8 @@ private fun readAssetFileToString(context: Context, fileName: String): String {
     return stream.bufferedReader().readText()
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
 private suspend fun loadActors(context: Context): List<Actor> = withContext(Dispatchers.IO) {
     val data = readAssetFileToString(context, "people.json")
     parseActors(data)
@@ -66,6 +68,8 @@ internal fun parseActors(data: String): List<Actor> {
     val jsonActors = jsonFormat.decodeFromString<List<JsonActor>>(data)
     return jsonActors.map { Actor(id = it.id, name = it.name, picture = it.profilePicture) }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Suppress("unused")
 internal suspend fun loadMovies(context: Context): List<Movie> = withContext(Dispatchers.IO) {

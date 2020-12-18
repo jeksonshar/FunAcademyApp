@@ -1,11 +1,13 @@
-package com.jeksonshar.funacademyapp
+package com.jeksonshar.funacademyapp.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.jeksonshar.funacademyapp.R
+import com.jeksonshar.funacademyapp.data.Actor
 import com.jeksonshar.funacademyapp.data.MovieActorModel
 
-class MovieActorsAdapter(var actorList: List<MovieActorModel>) :
+class MovieActorsAdapter(var actorList: List<Actor>) :
     RecyclerView.Adapter<MovieActorsViewHolder>() {
 
     override fun getItemCount(): Int = actorList.size

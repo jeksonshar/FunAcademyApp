@@ -26,7 +26,7 @@
       70165
     ],
     "vote_average": 6.1,
-    "overview": "Caught in the crosshairs of police corruption and Marseille’s warring gangs, a loyal cop must protect his squad by taking matters into his own hands.",
+    "overview": "Caught in the crosshairs of police corruption and Marseille’s warring gangs, a loyal cop must protect his squad by taking matters into his own hands. Caught in the crosshairs of police corruption and Marseille’s warring gangs, a loyal cop must protect his squad by taking matters into his own hands. Caught in the crosshairs of police corruption and Marseille’s warring gangs, a loyal cop must protect his squad by taking matters into his own hands.",
     "release_date": "2020-10-30"
   },
   {
@@ -63,7 +63,7 @@
     "video": false,
     "poster_path": "https://image.tmdb.org/t/p/w342/jlJ8nDhMhCYJuzOw3f52CP1W8MW.jpg",
     "id": 400160,
-    "adult": false,
+    "adult": true,
     "backdrop_path": "https://image.tmdb.org/t/p/w342/wu1uilmhM4TdluKi2ytfz8gidHf.jpg",
     "original_language": "en",
     "original_title": "The SpongeBob Movie: Sponge on the Run",
@@ -117,7 +117,7 @@
     "video": false,
     "poster_path": "https://image.tmdb.org/t/p/w342/betExZlgK0l7CZ9CsCBVcwO1OjL.jpg",
     "id": 531219,
-    "adult": false,
+    "adult": true,
     "backdrop_path": "https://image.tmdb.org/t/p/w342/8rIoyM6zYXJNjzGseT3MRusMPWl.jpg",
     "original_language": "en",
     "original_title": "Roald Dahl's The Witches",
