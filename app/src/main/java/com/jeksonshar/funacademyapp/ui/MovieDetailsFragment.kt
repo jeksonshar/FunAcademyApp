@@ -1,6 +1,7 @@
 package com.jeksonshar.funacademyapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,9 +25,12 @@ class MovieDetailsFragment : Fragment() {
 
     companion object {
         private const val MOVIE_KEY = "MovieItem"
-        fun newInstance(id: Int): MovieDetailsFragment {
+        private const val MOVIE_KEY_FAVORITE = "MovieIsFavorite"
+
+        fun newInstance(id: Int, isFavorite: Boolean): MovieDetailsFragment {
             val args = Bundle()
             args.putInt(MOVIE_KEY, id)
+            args.putBoolean(MOVIE_KEY_FAVORITE, isFavorite)
             val fragment = MovieDetailsFragment()
             fragment.arguments = args
             return fragment
@@ -37,6 +41,7 @@ class MovieDetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         val idMovie: Int? = arguments?.getInt(MOVIE_KEY)
+        val isFavoriteMovie: Boolean = arguments?.getBoolean(MOVIE_KEY_FAVORITE) == true
 
         scope.launch {
             val deffer = scope.async { loadMovies(requireContext()) }
@@ -45,6 +50,7 @@ class MovieDetailsFragment : Fragment() {
             for (movie: Movie in movieList) {
                 if (movie.id == idMovie) {
                     currentMovie = movie
+                    currentMovie.isFavorite = isFavoriteMovie
                 }
             }
         }
@@ -91,7 +97,10 @@ class MovieDetailsFragment : Fragment() {
 
         recycler.adapter = MovieActorsAdapter(currentMovie.actors)
 
-        recycler.layoutManager =
-            LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)
+        recycler.layoutManager = LinearLayoutManager(
+            view.context,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
     }
 }
