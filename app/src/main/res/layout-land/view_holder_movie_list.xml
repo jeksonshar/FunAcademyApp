@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/movieOfListImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -29,12 +29,13 @@
             android:layout_marginStart="@dimen/app_margin_2"
             android:layout_marginEnd="@dimen/app_margin_2"
             android:contentDescription="@string/image_view"
+            app:shapeAppearanceOverlay="@style/Theme.Movies.MaterialCardView"
             app:layout_constraintDimensionRatio="166:248"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:src="@drawable/movie_list_image1"
+            tools:src="@drawable/for_exemple"
             android:foreground="@drawable/gradient_mask"/>
 
         <LinearLayout

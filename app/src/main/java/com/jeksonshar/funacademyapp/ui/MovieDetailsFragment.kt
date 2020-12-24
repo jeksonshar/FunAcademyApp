@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jeksonshar.funacademyapp.R
+import com.jeksonshar.funacademyapp.data.Actor
 import com.jeksonshar.funacademyapp.data.Movie
 import com.jeksonshar.funacademyapp.data.loadMovies
 import kotlinx.coroutines.*
@@ -95,12 +96,31 @@ class MovieDetailsFragment : Fragment() {
         reviewsMovie.text = tmp
         descriptionMovie.text = currentMovie.overview
 
-        recycler.adapter = MovieActorsAdapter(currentMovie.actors)
+//        if (currentMovie.actors.isEmpty()) {
+//            val tmp = currentMovie.actors.toMutableList()
+//            tmp.add(Actor(1, "Not found actors", ""))
+//            val tmp1 = tmp.toList()
+//            recycler.adapter = MovieActorsAdapter(tmp1)
+//        } else {
+//            recycler.adapter = MovieActorsAdapter(currentMovie.actors)
+//        }
+//
+//        recycler.layoutManager = LinearLayoutManager(
+//            view.context,
+//            LinearLayoutManager.HORIZONTAL,
+//            false
+//        )
 
-        recycler.layoutManager = LinearLayoutManager(
-            view.context,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
+        if (currentMovie.actors.isEmpty()) {
+            view.findViewById<TextView>(R.id.castMovieView).visibility = View.GONE
+            recycler.visibility = View.GONE
+        } else {
+            recycler.adapter = MovieActorsAdapter(currentMovie.actors)
+            recycler.layoutManager = LinearLayoutManager(
+                view.context,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        }
     }
 }

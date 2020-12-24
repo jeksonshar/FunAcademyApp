@@ -17,7 +17,7 @@ class MovieActorsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         Glide.with(itemView.context)
             .load(actor.picture)
-            .placeholder(R.drawable.image_not_found)
+//            .placeholder(R.drawable.image_not_found)
             .into(avatarActors)
 
         nameActors.text = actor.name
