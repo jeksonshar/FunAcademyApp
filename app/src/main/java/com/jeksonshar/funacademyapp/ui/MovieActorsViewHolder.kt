@@ -1,7 +1,5 @@
 package com.jeksonshar.funacademyapp.ui
 
-
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,12 +22,4 @@ class MovieActorsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         nameActors.text = actor.name
     }
-//
-//    fun onBind() {
-//        Glide.with(itemView.context)
-//            .load(R.drawable.image_not_found)
-//            .into(avatarActors)
-//
-//        nameActors.text = "No actor name"
-//    }
 }

@@ -9,7 +9,7 @@
     android:layout_marginBottom="@dimen/app_margin_10"
     android:background="@drawable/layout_list_bg">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/movieOfListImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -18,6 +18,7 @@
         android:layout_marginEnd="@dimen/app_margin_2"
         android:contentDescription="@string/image_view"
         android:foreground="@drawable/gradient_mask"
+        app:shapeAppearanceOverlay="@style/Theme.Movies.MaterialCardView"
         app:layout_constraintBottom_toTopOf="@+id/nameOfMovieListView"
         app:layout_constraintDimensionRatio="166:248"
         app:layout_constraintEnd_toEndOf="parent"

@@ -20,7 +20,8 @@
         <item name="colorControlActivated">@color/red</item>
     </style>
     
-    <style name="Theme.Movies.MaterialCardView" parent="Widget.MaterialComponents.CardView">
-        <item name="cardCornerRadius">@dimen/radius_8</item>
+    <style name="Theme.Movies.MaterialCardView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
     </style>
 </resources>

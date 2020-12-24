@@ -1,12 +1,10 @@
 package com.jeksonshar.funacademyapp.ui
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jeksonshar.funacademyapp.R
 import com.jeksonshar.funacademyapp.data.Actor
-import com.jeksonshar.funacademyapp.data.MovieActorModel
 
 class MovieActorsAdapter(var actorList: List<Actor>) :
     RecyclerView.Adapter<MovieActorsViewHolder>() {
@@ -19,12 +17,6 @@ class MovieActorsAdapter(var actorList: List<Actor>) :
     }
 
     override fun onBindViewHolder(holder: MovieActorsViewHolder, position: Int) {
-//        if (actorList.isNotEmpty()) {
-//            Log.d("Смотри - ", actorList.size.toString())
             holder.onBind(actorList[position])
-//        } else {
-//            Log.d("Смотри - ", actorList.size.toString())
-//            holder.onBind()
-//        }
     }
 }
