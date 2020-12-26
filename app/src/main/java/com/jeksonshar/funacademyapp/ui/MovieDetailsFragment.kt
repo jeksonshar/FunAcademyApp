@@ -96,6 +96,7 @@ class MovieDetailsFragment : Fragment() {
         reviewsMovie.text = tmp
         descriptionMovie.text = currentMovie.overview
 
+        // дополнительный вариант обработки пустого списка актеров
 //        if (currentMovie.actors.isEmpty()) {
 //            val tmp = currentMovie.actors.toMutableList()
 //            tmp.add(Actor(1, "Not found actors", ""))
@@ -104,7 +105,6 @@ class MovieDetailsFragment : Fragment() {
 //        } else {
 //            recycler.adapter = MovieActorsAdapter(currentMovie.actors)
 //        }
-//
 //        recycler.layoutManager = LinearLayoutManager(
 //            view.context,
 //            LinearLayoutManager.HORIZONTAL,

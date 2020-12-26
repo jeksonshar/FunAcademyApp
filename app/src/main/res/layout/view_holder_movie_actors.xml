@@ -22,7 +22,7 @@
             android:layout_marginTop="@dimen/app_margin_8"
             android:layout_marginEnd="@dimen/app_margin_8"
             android:contentDescription="@string/image_text"
-            android:src="@drawable/image_not_found"
+            tools:src="@drawable/image_not_found"
             app:layout_constraintBottom_toTopOf="@id/nameOfActorMovieView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
