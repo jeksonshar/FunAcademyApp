@@ -2,8 +2,9 @@ package com.jeksonshar.funacademyapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.jeksonshar.funacademyapp.ui.MoviesListFragment
 
-class MainActivity : AppCompatActivity(), MovieFragmentClickListener {
+class MainActivity : AppCompatActivity()/*, MovieFragmentClickListener*/ {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,13 +18,13 @@ class MainActivity : AppCompatActivity(), MovieFragmentClickListener {
             supportFragmentManager.findFragmentByTag(CURRENT_FRAGMENT_TAG)
         }
     }
-
-    override fun addMovieDetailFragment() {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .add(R.id.fragment_container, MoviesDetailsFragment())
-            .commit()
-    }
+//
+//    override fun addMovieDetailFragment(movie: MovieDataModel) {
+//        supportFragmentManager.beginTransaction()
+//            .addToBackStack(null)
+//            .add(R.id.fragment_container, MoviesDetailsFragment())
+//            .commit()
+//    }
 
     companion object {
         const val CURRENT_FRAGMENT_TAG = "CurrentFragment"
