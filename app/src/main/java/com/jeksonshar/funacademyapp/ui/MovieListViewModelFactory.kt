@@ -10,7 +10,7 @@ class MovieListViewModelFactory(private val application: Application): ViewModel
         if (modelClass.isAssignableFrom(MovieListViewModel::class.java)) {
             return MovieListViewModel(application) as T
         } else {
-            throw IllegalArgumentException("Unknown ViewModel class")
+            throw IllegalArgumentException("Unknown MovieListViewModel class")
         }
     }
 }

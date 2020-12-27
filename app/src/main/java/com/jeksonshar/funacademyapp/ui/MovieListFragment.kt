@@ -70,7 +70,7 @@ class MoviesListFragment: Fragment() {
                 .addToBackStack(null)
                 .replace(
                     R.id.fragment_container,
-                    MovieDetailsFragment.newInstance(movie.id, movie.isFavorite)
+                    MovieDetailsFragment.newInstance(movie.id)
                 )
                 .commit()
         }

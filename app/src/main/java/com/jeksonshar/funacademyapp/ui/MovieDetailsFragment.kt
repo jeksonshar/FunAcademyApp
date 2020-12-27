@@ -1,7 +1,6 @@
 package com.jeksonshar.funacademyapp.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,28 +9,22 @@ import android.widget.LinearLayout
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jeksonshar.funacademyapp.R
-import com.jeksonshar.funacademyapp.data.Actor
-import com.jeksonshar.funacademyapp.data.Movie
-import com.jeksonshar.funacademyapp.data.loadMovies
-import kotlinx.coroutines.*
 
 class MovieDetailsFragment : Fragment() {
 
-    private lateinit var currentMovie: Movie
-    private var scope = CoroutineScope(Dispatchers.IO)
+    lateinit var viewModel: MovieDetailsViewModel
 
     companion object {
         private const val MOVIE_KEY = "MovieItem"
-        private const val MOVIE_KEY_FAVORITE = "MovieIsFavorite"
 
-        fun newInstance(id: Int, isFavorite: Boolean): MovieDetailsFragment {
+        fun newInstance(id: Int): MovieDetailsFragment {
             val args = Bundle()
             args.putInt(MOVIE_KEY, id)
-            args.putBoolean(MOVIE_KEY_FAVORITE, isFavorite)
             val fragment = MovieDetailsFragment()
             fragment.arguments = args
             return fragment
@@ -41,20 +34,12 @@ class MovieDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val idMovie: Int? = arguments?.getInt(MOVIE_KEY)
-        val isFavoriteMovie: Boolean = arguments?.getBoolean(MOVIE_KEY_FAVORITE) == true
+        val idMovie: Int = requireArguments().getInt(MOVIE_KEY)
 
-        scope.launch {
-            val deffer = scope.async { loadMovies(requireContext()) }
-            val movieList: List<Movie> = deffer.await()
-
-            for (movie: Movie in movieList) {
-                if (movie.id == idMovie) {
-                    currentMovie = movie
-                    currentMovie.isFavorite = isFavoriteMovie
-                }
-            }
-        }
+        viewModel = ViewModelProvider(
+            this,
+            MovieDetailsViewModelFactory(requireActivity().application, idMovie)
+        ).get(MovieDetailsViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -83,44 +68,33 @@ class MovieDetailsFragment : Fragment() {
             activity?.onBackPressed()
         }
 
-        Glide.with(requireContext())
-            .load(currentMovie.backdrop)
-            .into(avatarMovieView)
+        viewModel.currentMovieLiveData.observe(this.viewLifecycleOwner) { movie ->
+            Glide.with(requireContext())
+                .load(movie.backdrop)
+                .into(avatarMovieView)
 
-        var tmp = "${currentMovie.minimumAge}+"
-        ageCategoryMovie.text = tmp
-        nameOfMovie.text = currentMovie.title
-        tagMovie.text = currentMovie.genres.joinToString { it.name }
-        ratingBar.rating = currentMovie.ratings / 2
-        tmp = "${currentMovie.numberOfRatings} REVIEWS"
-        reviewsMovie.text = tmp
-        descriptionMovie.text = currentMovie.overview
+            var tmp = "${movie.minimumAge}+"
+            ageCategoryMovie.text = tmp
+            nameOfMovie.text = movie.title
+            tagMovie.text = movie.genres.joinToString { it.name }
+            ratingBar.rating = movie.ratings / 2
+            tmp = "${movie.numberOfRatings} REVIEWS"
+            reviewsMovie.text = tmp
+            descriptionMovie.text = movie.overview
 
-        // дополнительный вариант обработки пустого списка актеров
-//        if (currentMovie.actors.isEmpty()) {
-//            val tmp = currentMovie.actors.toMutableList()
-//            tmp.add(Actor(1, "Not found actors", ""))
-//            val tmp1 = tmp.toList()
-//            recycler.adapter = MovieActorsAdapter(tmp1)
-//        } else {
-//            recycler.adapter = MovieActorsAdapter(currentMovie.actors)
-//        }
-//        recycler.layoutManager = LinearLayoutManager(
-//            view.context,
-//            LinearLayoutManager.HORIZONTAL,
-//            false
-//        )
-
-        if (currentMovie.actors.isEmpty()) {
-            view.findViewById<TextView>(R.id.castMovieView).visibility = View.GONE
-            recycler.visibility = View.GONE
-        } else {
-            recycler.adapter = MovieActorsAdapter(currentMovie.actors)
-            recycler.layoutManager = LinearLayoutManager(
-                view.context,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
+/*  в случае, когда список актеров пуст, скрываем TextView - Cast и RecyclerView,
+    если же список актеров имеется - выводим его в RecyclerView                 */
+            if (movie.actors.isEmpty()) {
+                view.findViewById<TextView>(R.id.castMovieView).visibility = View.GONE
+                recycler.visibility = View.GONE
+            } else {
+                recycler.adapter = MovieActorsAdapter(movie.actors)
+                recycler.layoutManager = LinearLayoutManager(
+                    view.context,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+            }
         }
     }
 }
