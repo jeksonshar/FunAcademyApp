@@ -7,18 +7,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jeksonshar.funacademyapp.R
 import com.jeksonshar.funacademyapp.data.Movie
-import com.jeksonshar.funacademyapp.data.loadMovies
-import kotlinx.coroutines.*
 
 class MoviesListFragment: Fragment() {
 
     private var recycler: RecyclerView? = null
-    private var scope = CoroutineScope(Dispatchers.IO + Job())
+    lateinit var viewModel: MovieListViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(
+            this,
+            MovieListViewModelFactory(requireActivity().application)
+        ).get(MovieListViewModel::class.java)
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -31,13 +38,11 @@ class MoviesListFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recycler = view.findViewById(R.id.movieList)
 
-        scope.launch {
-            val deffer = scope.async { loadMovies(requireContext()) }
-            val movieList: List<Movie> = deffer.await()
-            scope.launch(Dispatchers.Main) {
-                recycler?.adapter = MovieListAdapter(clickListener, movieList)
-            }
+        viewModel.moviesLiveData.observe(this.viewLifecycleOwner) {
+            recycler?.adapter = MovieListAdapter(clickListener, it)
         }
+
+        //TODO реализовать логику извлечения значений из SharedPreferences
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             recycler?.layoutManager = GridLayoutManager(view.context,2)
@@ -72,6 +77,8 @@ class MoviesListFragment: Fragment() {
 
         override fun changeFavoriteValue(movie: Movie) {
             movie.isFavorite = !movie.isFavorite
+
+            //TODO реализовать логику сохранения значений в SharedPreferences
         }
     }
 }
