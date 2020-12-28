@@ -1,5 +1,6 @@
 package com.jeksonshar.funacademyapp.ui
 
+import android.content.SharedPreferences
 import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
@@ -31,12 +32,18 @@ class MovieListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var tmp = "${movie.minimumAge}+"
         ageCategoryMovieView.text = tmp
         tagMovieView.text = movie.genres.joinToString { it.name }
-        ratingMovieView.rating = movie.ratings/2
+        ratingMovieView.rating = movie.ratings / 2
         tmp = "${movie.numberOfRatings} REVIEWS"
         reviewsMovieView.text = tmp
         nameOfMovieView.text = movie.title
         tmp = "${movie.runtime} MIN"
         durationMovieView.text = tmp
+
+        val listShared = FavoriteSharedPreferences.listFavorite
+        for (item: SharedPreferences in listShared) {
+            if (item.contains("${movie.id}"))
+                movie.isFavorite = item.getBoolean("${movie.id}", false)
+        }
 
         if (movie.isFavorite) {
             isLiked.setImageResource(R.drawable.like_on)

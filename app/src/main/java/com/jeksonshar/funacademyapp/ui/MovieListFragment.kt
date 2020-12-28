@@ -17,7 +17,8 @@ import com.jeksonshar.funacademyapp.data.Movie
 class MoviesListFragment: Fragment() {
 
     private var recycler: RecyclerView? = null
-    lateinit var viewModel: MovieListViewModel
+    private lateinit var viewModel: MovieListViewModel
+    lateinit var savedIsFavorite: FavoriteSharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +26,8 @@ class MoviesListFragment: Fragment() {
             this,
             MovieListViewModelFactory(requireActivity().application)
         ).get(MovieListViewModel::class.java)
+
+        savedIsFavorite = RepositoryProvider.getInstanceFavoriteMovies(requireContext())!!
     }
 
     override fun onCreateView(
@@ -42,7 +45,8 @@ class MoviesListFragment: Fragment() {
             recycler?.adapter = MovieListAdapter(clickListener, it)
         }
 
-        //TODO реализовать логику извлечения значений из SharedPreferences
+        // извлечения значений из SharedPreferences при запуске
+        savedIsFavorite.update()
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             recycler?.layoutManager = GridLayoutManager(view.context,2)
@@ -78,7 +82,12 @@ class MoviesListFragment: Fragment() {
         override fun changeFavoriteValue(movie: Movie) {
             movie.isFavorite = !movie.isFavorite
 
-            //TODO реализовать логику сохранения значений в SharedPreferences
+            // сохранения значений в SharedPreferences если лайк, удаление если снять лайк
+            if (movie.isFavorite) {
+                savedIsFavorite.saveFavoriteMovie(movie)
+            } else {
+                savedIsFavorite.deleteFavoriteMovie(movie)
+            }
         }
     }
 }
