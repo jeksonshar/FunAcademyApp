@@ -1,4 +1,4 @@
-package com.jeksonshar.funacademyapp.ui
+package com.jeksonshar.funacademyapp.ui.detailsFragment
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 class MovieDetailsViewModelFactory(
     private val application: Application,
     private val idMovie: Int
-): ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MovieDetailsViewModel::class.java)) {

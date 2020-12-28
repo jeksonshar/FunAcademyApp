@@ -1,4 +1,4 @@
-package com.jeksonshar.funacademyapp.ui
+package com.jeksonshar.funacademyapp.ui.detailsFragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,11 +12,13 @@ class MovieActorsAdapter(var actorList: List<Actor>) :
     override fun getItemCount(): Int = actorList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieActorsViewHolder {
-        return MovieActorsViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.view_holder_movie_actors, parent, false))
+        return MovieActorsViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.view_holder_movie_actors, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: MovieActorsViewHolder, position: Int) {
-            holder.onBind(actorList[position])
+        holder.onBind(actorList[position])
     }
 }

@@ -1,4 +1,4 @@
-package com.jeksonshar.funacademyapp.ui
+package com.jeksonshar.funacademyapp.ui.listFragment
 
 import android.content.Context
 import android.content.res.Configuration
@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jeksonshar.funacademyapp.R
+import com.jeksonshar.funacademyapp.ui.detailsFragment.MovieDetailsFragment
+import com.jeksonshar.funacademyapp.ui.FavoriteSharedPreferences
+import com.jeksonshar.funacademyapp.ui.RepositoryProvider
 import com.jeksonshar.funacademyapp.data.Movie
 
-class MoviesListFragment: Fragment() {
+class MoviesListFragment : Fragment() {
 
     private var recycler: RecyclerView? = null
     private lateinit var viewModel: MovieListViewModel
@@ -31,11 +34,11 @@ class MoviesListFragment: Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_movies_list, container,false)
+        return inflater.inflate(R.layout.fragment_movies_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,9 +52,10 @@ class MoviesListFragment: Fragment() {
         savedIsFavorite.update()
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recycler?.layoutManager = GridLayoutManager(view.context,2)
+            recycler?.layoutManager = GridLayoutManager(view.context, 2)
         } else {
-            recycler?.layoutManager = LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
+            recycler?.layoutManager =
+                LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
         }
     }
 

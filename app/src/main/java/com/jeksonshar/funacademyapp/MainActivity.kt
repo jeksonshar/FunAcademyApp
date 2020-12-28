@@ -2,7 +2,7 @@ package com.jeksonshar.funacademyapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.jeksonshar.funacademyapp.ui.MoviesListFragment
+import com.jeksonshar.funacademyapp.ui.listFragment.MoviesListFragment
 
 class MainActivity : AppCompatActivity()/*, MovieFragmentClickListener*/ {
 

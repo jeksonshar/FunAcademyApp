@@ -1,4 +1,4 @@
-package com.jeksonshar.funacademyapp.ui
+package com.jeksonshar.funacademyapp.ui.listFragment
 
 import android.content.SharedPreferences
 import android.view.View
@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.jeksonshar.funacademyapp.R
+import com.jeksonshar.funacademyapp.ui.FavoriteSharedPreferences
 import com.jeksonshar.funacademyapp.data.Movie
 
 class MovieListViewHolder(view: View) : RecyclerView.ViewHolder(view) {

@@ -1,4 +1,4 @@
-package com.jeksonshar.funacademyapp.ui
+package com.jeksonshar.funacademyapp.ui.detailsFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +17,7 @@ import com.jeksonshar.funacademyapp.R
 
 class MovieDetailsFragment : Fragment() {
 
-    lateinit var viewModel: MovieDetailsViewModel
+    private lateinit var viewModel: MovieDetailsViewModel
 
     companion object {
         private const val MOVIE_KEY = "MovieItem"

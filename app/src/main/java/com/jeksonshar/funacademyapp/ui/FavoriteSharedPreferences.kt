@@ -6,7 +6,8 @@ import com.jeksonshar.funacademyapp.data.Movie
 
 class FavoriteSharedPreferences(context: Context) {
 
-    private val sPreferences: SharedPreferences = context.getSharedPreferences("Save", Context.MODE_PRIVATE)
+    private val sPreferences: SharedPreferences =
+        context.getSharedPreferences("Save", Context.MODE_PRIVATE)
 
     fun saveFavoriteMovie(movie: Movie) {
         sPreferences.edit()?.putBoolean("${movie.id}", movie.isFavorite)?.apply()

@@ -1,4 +1,4 @@
-package com.jeksonshar.funacademyapp.ui
+package com.jeksonshar.funacademyapp.ui.detailsFragment
 
 import android.app.Application
 import androidx.lifecycle.LiveData
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class MovieDetailsViewModel(
     private val application: Application,
     private val idMovie: Int
-    ): ViewModel() {
+) : ViewModel() {
 
     private val _currentMovieLiveData = MutableLiveData<Movie>()
     val currentMovieLiveData: LiveData<Movie> = _currentMovieLiveData
