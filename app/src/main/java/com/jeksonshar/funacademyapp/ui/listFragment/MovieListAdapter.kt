@@ -1,4 +1,4 @@
-package com.jeksonshar.funacademyapp.ui
+package com.jeksonshar.funacademyapp.ui.listFragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,8 +9,8 @@ import com.jeksonshar.funacademyapp.data.Movie
 
 class MovieListAdapter(
     private val listener: MovieFragmentClickListener?,
-    var movieList: List<Movie>
-    ) : RecyclerView.Adapter<MovieListViewHolder>() {
+    private var movieList: List<Movie>
+) : RecyclerView.Adapter<MovieListViewHolder>() {
 
     override fun getItemCount(): Int = movieList.size
 
@@ -18,8 +18,10 @@ class MovieListAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
-        return MovieListViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.view_holder_movie_list, parent, false))
+        return MovieListViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.view_holder_movie_list, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: MovieListViewHolder, position: Int) {

@@ -1,5 +1,6 @@
-package com.jeksonshar.funacademyapp.ui
+package com.jeksonshar.funacademyapp.ui.listFragment
 
+import android.content.SharedPreferences
 import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.jeksonshar.funacademyapp.R
+import com.jeksonshar.funacademyapp.ui.FavoriteSharedPreferences
 import com.jeksonshar.funacademyapp.data.Movie
 
 class MovieListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -31,12 +33,18 @@ class MovieListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var tmp = "${movie.minimumAge}+"
         ageCategoryMovieView.text = tmp
         tagMovieView.text = movie.genres.joinToString { it.name }
-        ratingMovieView.rating = movie.ratings/2
+        ratingMovieView.rating = movie.ratings / 2
         tmp = "${movie.numberOfRatings} REVIEWS"
         reviewsMovieView.text = tmp
         nameOfMovieView.text = movie.title
         tmp = "${movie.runtime} MIN"
         durationMovieView.text = tmp
+
+        val listShared = FavoriteSharedPreferences.listFavorite
+        for (item: SharedPreferences in listShared) {
+            if (item.contains("${movie.id}"))
+                movie.isFavorite = item.getBoolean("${movie.id}", false)
+        }
 
         if (movie.isFavorite) {
             isLiked.setImageResource(R.drawable.like_on)

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">FunAcademyApp</string>
+    <string name="app_name" translatable="false">MoviesDB</string>
     <string name="hello">Hello world!</string>
 
     <string name="back_text">Back</string>

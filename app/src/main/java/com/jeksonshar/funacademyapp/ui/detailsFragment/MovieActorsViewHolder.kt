@@ -1,4 +1,4 @@
-package com.jeksonshar.funacademyapp.ui
+package com.jeksonshar.funacademyapp.ui.detailsFragment
 
 import android.view.View
 import android.widget.ImageView
