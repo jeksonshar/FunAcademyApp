@@ -1,17 +1,15 @@
-package com.jeksonshar.funacademyapp.ui.detailsFragment
+package com.jeksonshar.funacademyapp.viewModels
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jeksonshar.funacademyapp.data.Movie
-import com.jeksonshar.funacademyapp.data.loadMovies
+import com.jeksonshar.funacademyapp.network.loadMovieDetails
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
-    private val application: Application,
     private val idMovie: Int
 ) : ViewModel() {
 
@@ -20,14 +18,10 @@ class MovieDetailsViewModel(
 
     init {
         viewModelScope.launch {
-            val deffer = viewModelScope.async { loadMovies(application.applicationContext) }
-            val movieList: List<Movie> = deffer.await()
-
-            for (movie: Movie in movieList) {
-                if (movie.id == idMovie) {
-                    _currentMovieLiveData.value = movie
-                }
+            val deffer = viewModelScope.async {
+                loadMovieDetails(idMovie)
             }
+            _currentMovieLiveData.value = deffer.await()
         }
     }
 }

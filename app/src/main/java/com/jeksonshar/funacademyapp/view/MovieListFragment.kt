@@ -1,4 +1,4 @@
-package com.jeksonshar.funacademyapp.ui.listFragment
+package com.jeksonshar.funacademyapp.view
 
 import android.content.Context
 import android.content.res.Configuration
@@ -12,10 +12,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jeksonshar.funacademyapp.R
-import com.jeksonshar.funacademyapp.ui.detailsFragment.MovieDetailsFragment
-import com.jeksonshar.funacademyapp.ui.FavoriteSharedPreferences
-import com.jeksonshar.funacademyapp.ui.RepositoryProvider
+import com.jeksonshar.funacademyapp.db.FavoriteSharedPreferences
+import com.jeksonshar.funacademyapp.db.RepositoryProvider
 import com.jeksonshar.funacademyapp.data.Movie
+import com.jeksonshar.funacademyapp.viewModels.MovieListViewModel
+import com.jeksonshar.funacademyapp.viewModels.MovieListViewModelFactory
 
 class MoviesListFragment : Fragment() {
 
@@ -27,7 +28,7 @@ class MoviesListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(
             this,
-            MovieListViewModelFactory(requireActivity().application)
+            MovieListViewModelFactory()
         ).get(MovieListViewModel::class.java)
 
         savedIsFavorite = RepositoryProvider.getInstanceFavoriteMovies(requireContext())!!
@@ -48,7 +49,7 @@ class MoviesListFragment : Fragment() {
             recycler?.adapter = MovieListAdapter(clickListener, it)
         }
 
-        // извлечения значений из SharedPreferences при запуске
+/** извлечения значений из SharedPreferences при запуске */
         savedIsFavorite.update()
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -86,7 +87,7 @@ class MoviesListFragment : Fragment() {
         override fun changeFavoriteValue(movie: Movie) {
             movie.isFavorite = !movie.isFavorite
 
-            // сохранения значений в SharedPreferences если лайк, удаление если снять лайк
+/** сохранения значений в SharedPreferences если лайк, удаление если снять лайк */
             if (movie.isFavorite) {
                 savedIsFavorite.saveFavoriteMovie(movie)
             } else {

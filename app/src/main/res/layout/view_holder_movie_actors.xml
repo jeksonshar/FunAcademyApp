@@ -18,10 +18,11 @@
         <ImageView
             android:id="@+id/avatarOfActorMovieImage"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/app_margin_8"
             android:layout_marginEnd="@dimen/app_margin_8"
             android:contentDescription="@string/image_text"
+            app:layout_constraintDimensionRatio="166:248"
             tools:src="@drawable/image_not_found"
             app:layout_constraintBottom_toTopOf="@id/nameOfActorMovieView"
             app:layout_constraintEnd_toEndOf="parent"

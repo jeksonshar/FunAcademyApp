@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/app_margin_8"
             android:layout_marginEnd="@dimen/app_margin_8"
-            android:layout_marginBottom="@dimen/app_margin_20"
+            android:layout_marginBottom="@dimen/app_margin_16"
             android:textColor="@color/white"
             android:textSize="@dimen/app_default_text_14"
             android:maxLines="1"

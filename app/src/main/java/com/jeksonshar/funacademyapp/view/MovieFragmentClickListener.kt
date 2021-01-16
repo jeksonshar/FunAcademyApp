@@ -1,4 +1,4 @@
-package com.jeksonshar.funacademyapp.ui.listFragment
+package com.jeksonshar.funacademyapp.view
 
 import com.jeksonshar.funacademyapp.data.Movie
 

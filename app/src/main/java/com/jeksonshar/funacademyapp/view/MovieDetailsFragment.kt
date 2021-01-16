@@ -1,4 +1,4 @@
-package com.jeksonshar.funacademyapp.ui.detailsFragment
+package com.jeksonshar.funacademyapp.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jeksonshar.funacademyapp.R
+import com.jeksonshar.funacademyapp.viewModels.MovieDetailsViewModel
+import com.jeksonshar.funacademyapp.viewModels.MovieDetailsViewModelFactory
 
 class MovieDetailsFragment : Fragment() {
 
@@ -38,7 +40,7 @@ class MovieDetailsFragment : Fragment() {
 
         viewModel = ViewModelProvider(
             this,
-            MovieDetailsViewModelFactory(requireActivity().application, idMovie)
+            MovieDetailsViewModelFactory( idMovie)
         ).get(MovieDetailsViewModel::class.java)
     }
 
@@ -78,11 +80,11 @@ class MovieDetailsFragment : Fragment() {
             nameOfMovie.text = movie.title
             tagMovie.text = movie.genres.joinToString { it.name }
             ratingBar.rating = movie.ratings / 2
-            tmp = "${movie.numberOfRatings} REVIEWS"
+            tmp = "${movie.numberOfRatings} ${view.resources.getString(R.string.reviews)}"
             reviewsMovie.text = tmp
             descriptionMovie.text = movie.overview
 
-/*  в случае, когда список актеров пуст, скрываем TextView - Cast и RecyclerView,
+/**  в случае, когда список актеров пуст, скрываем TextView - Cast и RecyclerView,
     если же список актеров имеется - выводим его в RecyclerView                 */
             if (movie.actors.isEmpty()) {
                 view.findViewById<TextView>(R.id.castMovieView).visibility = View.GONE
