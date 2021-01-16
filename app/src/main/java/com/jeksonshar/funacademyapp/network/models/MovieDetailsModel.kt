@@ -1,5 +1,6 @@
 package com.jeksonshar.funacademyapp.network.models
 
+import com.jeksonshar.funacademyapp.data.Genre
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,7 +20,7 @@ data class MovieDetailsModel(
 	@SerialName("revenue")
 	val revenue: Int,
 	@SerialName("genres")
-	val genres: List<GenresItem>,
+	val genres: List</*GenresItem*/Genre>,
 	@SerialName("popularity")
 	val popularity: Float,
 	@SerialName("production_countries")
@@ -60,3 +61,4 @@ data class ProductionCountriesItem(
 	@SerialName("name")
 	val name: String
 )
+

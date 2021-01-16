@@ -1,6 +1,7 @@
 package com.jeksonshar.funacademyapp.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,7 +81,7 @@ class MovieDetailsFragment : Fragment() {
             nameOfMovie.text = movie.title
             tagMovie.text = movie.genres.joinToString { it.name }
             ratingBar.rating = movie.ratings / 2
-            tmp = "${movie.numberOfRatings} ${view.resources.getString(R.string.reviews)}"
+            tmp = "${movie.numberOfRatings}  ${view.resources.getString(R.string.reviews)}"
             reviewsMovie.text = tmp
             descriptionMovie.text = movie.overview
 

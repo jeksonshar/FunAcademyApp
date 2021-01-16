@@ -91,11 +91,9 @@ suspend fun loadMoviePopularDetail(): List<Movie> = withContext(Dispatchers.IO) 
 }
 
 suspend fun loadMovieDetails(id: Int): Movie = withContext(Dispatchers.IO) {
-    val data =
-        RetrofitModule.moviesApi.getMovieDetails(id, Locale.getDefault().language.toString())
-
+    val data = RetrofitModule.moviesApi
+        .getMovieDetails(id, Locale.getDefault().language.toString())
     val baseUrl = loadBaseUrlPlace()
-
 
     return@withContext Movie(
             id = data.id,
@@ -107,10 +105,7 @@ suspend fun loadMovieDetails(id: Int): Movie = withContext(Dispatchers.IO) {
             numberOfRatings = data.voteCount,
             minimumAge = if (data.adult) 16 else 13,
             runtime = 100,
-            genres = emptyList(),
+            genres = data.genres,
             actors = loadActorsByMovie(data.id)
         )
-
-
-
 }
