@@ -20,7 +20,7 @@ data class MovieDetailsModel(
 	@SerialName("revenue")
 	val revenue: Int,
 	@SerialName("genres")
-	val genres: List</*GenresItem*/Genre>,
+	val genres: List<Genre>,
 	@SerialName("popularity")
 	val popularity: Float,
 	@SerialName("production_countries")

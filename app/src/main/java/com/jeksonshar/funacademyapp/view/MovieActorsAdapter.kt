@@ -11,7 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.jeksonshar.funacademyapp.R
 import com.jeksonshar.funacademyapp.data.Actor
 
-class MovieActorsAdapter(var actorList: List<Actor>) :
+class MovieActorsAdapter(private var actorList: List<Actor>) :
     RecyclerView.Adapter<MovieActorsViewHolder>() {
 
     override fun getItemCount(): Int = actorList.size

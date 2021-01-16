@@ -49,7 +49,7 @@ class MoviesListFragment : Fragment() {
             recycler?.adapter = MovieListAdapter(clickListener, it)
         }
 
-/** извлечения значений из SharedPreferences при запуске */
+        /** извлечения значений из SharedPreferences при запуске */
         savedIsFavorite.update()
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -87,7 +87,7 @@ class MoviesListFragment : Fragment() {
         override fun changeFavoriteValue(movie: Movie) {
             movie.isFavorite = !movie.isFavorite
 
-/** сохранения значений в SharedPreferences если лайк, удаление если снять лайк */
+            /** сохранения значений в SharedPreferences если лайк, удаление если снять лайк */
             if (movie.isFavorite) {
                 savedIsFavorite.saveFavoriteMovie(movie)
             } else {

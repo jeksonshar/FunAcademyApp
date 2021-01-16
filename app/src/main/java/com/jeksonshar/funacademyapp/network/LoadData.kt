@@ -6,7 +6,6 @@ import com.jeksonshar.funacademyapp.data.Movie
 import kotlinx.coroutines.*
 import java.util.*
 
-
 suspend fun loadGenre(): List<Genre> {
     val data = RetrofitModule.moviesApi.getGenres(Locale.getDefault().language.toString()).genres
     return data.map {
@@ -64,48 +63,22 @@ suspend fun loadMoviePopularList(): List<Movie> = withContext(Dispatchers.IO) {
     }
 }
 
-suspend fun loadMoviePopularDetail(): List<Movie> = withContext(Dispatchers.IO) {
-    val data =
-        RetrofitModule.moviesApi.getMoviesPopular(Locale.getDefault().language.toString()).movies
-    val genresMap = loadGenre().associateBy {
-        it.id }
-    val baseUrl = loadBaseUrlPlace()
-
-    return@withContext data.map {
-        Movie(
-            id = it.id,
-            title = it.title,
-            overview = it.overview,
-            poster = baseUrl + "w500" + it.posterPath,
-            backdrop = baseUrl + "w500" + it.backdropPath,
-            ratings = it.voteAverage,
-            numberOfRatings = it.voteCount,
-            minimumAge = if (it.adult) 16 else 13,
-            runtime = 100,
-            genres = it.genreIds.map { its ->
-                genresMap[its] ?: throw IllegalArgumentException("Genre not found")
-            },
-            actors = loadActorsByMovie(it.id)
-        )
-    }
-}
-
 suspend fun loadMovieDetails(id: Int): Movie = withContext(Dispatchers.IO) {
     val data = RetrofitModule.moviesApi
         .getMovieDetails(id, Locale.getDefault().language.toString())
     val baseUrl = loadBaseUrlPlace()
 
     return@withContext Movie(
-            id = data.id,
-            title = data.title,
-            overview = data.overview,
-            poster = baseUrl + "w500" + data.posterPath,
-            backdrop = baseUrl + "w500" + data.backdropPath,
-            ratings = data.voteAverage,
-            numberOfRatings = data.voteCount,
-            minimumAge = if (data.adult) 16 else 13,
-            runtime = 100,
-            genres = data.genres,
-            actors = loadActorsByMovie(data.id)
-        )
+        id = data.id,
+        title = data.title,
+        overview = data.overview,
+        poster = baseUrl + "w500" + data.posterPath,
+        backdrop = baseUrl + "w500" + data.backdropPath,
+        ratings = data.voteAverage,
+        numberOfRatings = data.voteCount,
+        minimumAge = if (data.adult) 16 else 13,
+        runtime = 100,
+        genres = data.genres,
+        actors = loadActorsByMovie(data.id)
+    )
 }

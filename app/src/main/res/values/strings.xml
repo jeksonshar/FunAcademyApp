@@ -1,31 +1,31 @@
 <resources>
     <string name="app_name" translatable="false">MoviesDB</string>
-    <string name="hello">Hello world!</string>
+    <string name="hello" translatable="false">Hello world!</string>
 
     <string name="back_text">Back</string>
-    <string name="rating_movie">13+</string>
-    <string name="name_movie">Avengers: End Game</string>
-    <string name="name_movie_for_list">Avengers: End Game</string>
-    <string name="tag_movie">Action, Adventure, Fantasy</string>
-    <string name="background_movie">background</string>
-    <string name="review_movie">125 REVIEWS</string>
+    <string name="rating_movie" translatable="false">13+</string>
+    <string name="name_movie" translatable="false">Avengers: End Game</string>
+    <string name="name_movie_for_list" translatable="false">Avengers: End Game</string>
+    <string name="tag_movie" translatable="false">Action, Adventure, Fantasy</string>
+    <string name="background_movie" translatable="false">background</string>
+    <string name="review_movie" translatable="false">125 REVIEWS</string>
     <string name="reviews">REVIEWS</string>
     <string name="storyline_movie">Storyline</string>
-    <string name="description_detail_movie">
+    <string name="description_detail_movie" translatable="false">
         After the devastating events of Avengers: Infinity War,
         the universe is in ruins. With the help of remaining allies,
         the Avengers assemble once more in order to reverse Thanos\'
         actions and restore balance to the universe.
     </string>
     <string name="cast_movie">Cast</string>
-    <string name="robert_downey_jr">Robert Downey Jr.</string>
-    <string name="chris_evans">Chris Evans</string>
-    <string name="mark_ruffalo">Mark Ruffalo</string>
-    <string name="chris_hemsworth">Chris Hemsworth</string>
-    <string name="image_text">image</string>
-    <string name="next_button">Next</string>
-    <string name="image_view">image view</string>
-    <string name="movies_list">Movies list</string>
-    <string name="_137_min">137 MIN</string>
+    <string name="robert_downey_jr" translatable="false">Robert Downey Jr.</string>
+    <string name="chris_evans" translatable="false">Chris Evans</string>
+    <string name="mark_ruffalo" translatable="false">Mark Ruffalo</string>
+    <string name="chris_hemsworth" translatable="false">Chris Hemsworth</string>
+    <string name="image_text" translatable="false">image</string>
+    <string name="next_button" translatable="false">Next</string>
+    <string name="image_view" translatable="false">image view</string>
+    <string name="movies_list" translatable="false">Movies list</string>
+    <string name="_137_min" translatable="false">137 MIN</string>
     <string name="min">MIN</string>
 </resources>

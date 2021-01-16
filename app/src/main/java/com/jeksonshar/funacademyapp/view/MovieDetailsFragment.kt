@@ -1,7 +1,6 @@
 package com.jeksonshar.funacademyapp.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +40,7 @@ class MovieDetailsFragment : Fragment() {
 
         viewModel = ViewModelProvider(
             this,
-            MovieDetailsViewModelFactory( idMovie)
+            MovieDetailsViewModelFactory(idMovie)
         ).get(MovieDetailsViewModel::class.java)
     }
 
@@ -85,8 +84,8 @@ class MovieDetailsFragment : Fragment() {
             reviewsMovie.text = tmp
             descriptionMovie.text = movie.overview
 
-/**  в случае, когда список актеров пуст, скрываем TextView - Cast и RecyclerView,
-    если же список актеров имеется - выводим его в RecyclerView                 */
+            /**  в случае, когда список актеров пуст, скрываем TextView - Cast и RecyclerView,
+            если же список актеров имеется - выводим его в RecyclerView                 */
             if (movie.actors.isEmpty()) {
                 view.findViewById<TextView>(R.id.castMovieView).visibility = View.GONE
                 recycler.visibility = View.GONE
