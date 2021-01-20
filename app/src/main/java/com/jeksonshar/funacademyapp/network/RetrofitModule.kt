@@ -18,8 +18,8 @@ object RetrofitModule {
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .client(client)
         .baseUrl("https://api.themoviedb.org/3/")
+        .client(client)
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .build()
 

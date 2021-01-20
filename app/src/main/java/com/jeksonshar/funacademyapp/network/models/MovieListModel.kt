@@ -10,7 +10,7 @@ data class MovieListModel(
     @SerialName("total_pages")
     val totalPages: Int,
     @SerialName("results")
-    val movies: List<MovieItemModel>,
+    val movies: List<MovieItemModel>? = emptyList(),
     @SerialName("total_results")
     val totalResults: Int
 )
@@ -18,7 +18,7 @@ data class MovieListModel(
 @Serializable
 data class MovieItemModel(
     @SerialName("overview")
-    val overview: String,
+    val overview: String? = null,
     @SerialName("original_language")
     val originalLanguage: String,
     @SerialName("original_title")
@@ -26,25 +26,25 @@ data class MovieItemModel(
     @SerialName("video")
     val video: Boolean,
     @SerialName("title")
-    val title: String,
+    val title: String? = null,
     @SerialName("genre_ids")
-    val genreIds: List<Int>,
+    val genreIds: List<Int>? = emptyList(),
     @SerialName("poster_path")
-    val posterPath: String,
+    val posterPath: String? = null,
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String? = null,
     @SerialName("release_date")
     val releaseDate: String,
     @SerialName("popularity")
     val popularity: Float,
     @SerialName("vote_average")
-    val voteAverage: Float,
+    val voteAverage: Float? = null,
     @SerialName("id")
-    val id: Int,
+    val id: Int? = null,
     @SerialName("adult")
-    val adult: Boolean,
+    val adult: Boolean? = null,
     @SerialName("vote_count")
-    val voteCount: Int
+    val voteCount: Int? = null
 )
 
 

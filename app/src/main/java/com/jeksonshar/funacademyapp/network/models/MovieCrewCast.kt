@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class MovieCrewCast(
 
 	@SerialName("cast")
-	val cast: List<CastItem>,
+	val cast: List<CastItem>? = null,
 	@SerialName("id")
 	val id: Int,
 	@SerialName("crew")
@@ -32,11 +32,11 @@ data class CastItem(
 	@SerialName("popularity")
 	val popularity: Double,
 	@SerialName("name")
-	val name: String,
+	val name: String? = null,
 	@SerialName("profile_path")
-	val profilePath: String?,
+	val profilePath: String? = null,
 	@SerialName("id")
-	val id: Int,
+	val id: Int? = null,
 	@SerialName("adult")
 	val adult: Boolean,
 	@SerialName("order")

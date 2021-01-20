@@ -1,5 +1,6 @@
 package com.jeksonshar.funacademyapp.viewModels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import com.jeksonshar.funacademyapp.data.Movie
 import com.jeksonshar.funacademyapp.network.loadMoviePopularList
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class MovieListViewModel : ViewModel() {
 
@@ -19,7 +21,11 @@ class MovieListViewModel : ViewModel() {
             val deffer = viewModelScope.async {
                 loadMoviePopularList()
             }
-            _moviesLiveData.value = deffer.await()
+            try {
+                _moviesLiveData.value = deffer.await()
+            } catch (e: IOException) {
+                Log.d("Смотри - ", "AndroidRuntime: FATAL EXCEPTION")
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ data class Images(
 	@SerialName("poster_sizes")
 	val posterSizes: List<String>,
 	@SerialName("secure_base_url")
-	val secureBaseUrl: String,
+	val secureBaseUrl: String? = null,
 	@SerialName("backdrop_sizes")
 	val backdropSizes: List<String>,
 	@SerialName("base_url")

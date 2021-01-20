@@ -5,4 +5,7 @@
     <string name="storyline_movie">Сюжет:</string>
     <string name="cast_movie">В ролях:</string>
     <string name="min">МИН</string>
+
+    <string name="attention_no_internet">Внимание! <br />Отсутствует интернет соединение!</string>
+    <string name="check_internet_connection">Проверьте подключение и перезапустите приложение</string>
 </resources>

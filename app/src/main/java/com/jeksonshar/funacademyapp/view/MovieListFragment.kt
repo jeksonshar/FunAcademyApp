@@ -2,6 +2,8 @@ package com.jeksonshar.funacademyapp.view
 
 import android.content.Context
 import android.content.res.Configuration
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,16 +24,22 @@ class MoviesListFragment : Fragment() {
 
     private var recycler: RecyclerView? = null
     private lateinit var viewModel: MovieListViewModel
-    lateinit var savedIsFavorite: FavoriteSharedPreferences
+    var savedIsFavorite: FavoriteSharedPreferences? = null
+    private var noInternetDialog: NoInternetConnectionDialog? = null
+
+    companion object {
+        const val KEY_DIALOG_NO_INTERNET = "key_dialog_no_internet"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewModel = ViewModelProvider(
             this,
             MovieListViewModelFactory()
         ).get(MovieListViewModel::class.java)
 
-        savedIsFavorite = RepositoryProvider.getInstanceFavoriteMovies(requireContext())!!
+        savedIsFavorite = RepositoryProvider.getInstanceFavoriteMovies(requireContext())
     }
 
     override fun onCreateView(
@@ -45,12 +53,16 @@ class MoviesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recycler = view.findViewById(R.id.movieList)
 
+        if (!isConnectionAble()) {
+            showDialogNoInternetConnection(savedInstanceState)
+        }
+
         viewModel.moviesLiveData.observe(this.viewLifecycleOwner) {
             recycler?.adapter = MovieListAdapter(clickListener, it)
         }
 
-        /** извлечения значений из SharedPreferences при запуске */
-        savedIsFavorite.update()
+        /** извлечения значений из SharedPreferences при запуске App */
+        savedIsFavorite?.getFavoriteMovies()
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             recycler?.layoutManager = GridLayoutManager(view.context, 2)
@@ -72,16 +84,48 @@ class MoviesListFragment : Fragment() {
         clickListener = null
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putSerializable(KEY_DIALOG_NO_INTERNET, noInternetDialog)
+    }
+
+    private fun isConnectionAble(): Boolean {
+        val connectionManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE)
+        return if (connectionManager is ConnectivityManager) {
+            val netWorkInfo: NetworkInfo? = connectionManager.activeNetworkInfo
+            netWorkInfo?.isConnectedOrConnecting ?: false
+        } else false
+    }
+
+    fun showDialogNoInternetConnection(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            noInternetDialog = NoInternetConnectionDialog()
+            val noInternetManager = requireActivity().supportFragmentManager
+            noInternetDialog?.show(
+                noInternetManager,
+                context?.resources?.getString(R.string.no_internet_dialog_tag)
+            )
+        } else {
+            noInternetDialog = savedInstanceState
+                .getSerializable(KEY_DIALOG_NO_INTERNET) as NoInternetConnectionDialog
+        }
+    }
+
     private var clickListener: MovieFragmentClickListener? = object : MovieFragmentClickListener {
 
         override fun addMovieDetailFragment(movie: Movie) {
-            parentFragmentManager.beginTransaction()
-                .addToBackStack(null)
-                .replace(
-                    R.id.fragment_container,
-                    MovieDetailsFragment.newInstance(movie.id)
-                )
-                .commit()
+            if (isConnectionAble()) {
+                parentFragmentManager.beginTransaction()
+                    .addToBackStack(null)
+                    .replace(
+                        R.id.fragment_container,
+                        MovieDetailsFragment.newInstance(movie.id)
+                    )
+                    .commit()
+            } else {
+                showDialogNoInternetConnection(null)
+            }
         }
 
         override fun changeFavoriteValue(movie: Movie) {
@@ -89,9 +133,9 @@ class MoviesListFragment : Fragment() {
 
             /** сохранения значений в SharedPreferences если лайк, удаление если снять лайк */
             if (movie.isFavorite) {
-                savedIsFavorite.saveFavoriteMovie(movie)
+                savedIsFavorite?.saveFavoriteMovie(movie)
             } else {
-                savedIsFavorite.deleteFavoriteMovie(movie)
+                savedIsFavorite?.deleteFavoriteMovie(movie)
             }
         }
     }

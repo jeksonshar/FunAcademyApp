@@ -19,7 +19,7 @@ class FavoriteSharedPreferences(context: Context) {
         listFavorite = listFavorite.plus(sPreferences)
     }
 
-    fun update() {
+    fun getFavoriteMovies() {
         sPreferences.edit()?.apply()
         listFavorite = listFavorite.plus(sPreferences)
     }
