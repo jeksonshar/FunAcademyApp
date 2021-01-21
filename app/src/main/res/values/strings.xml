@@ -30,8 +30,9 @@
     <string name="min">MIN</string>
 
     <string name="no_internet_dialog_tag" translatable="false">noInternetConnectionDialog</string>
-    <string name="attention_no_internet">Attention! <br />No Internet connection!</string>
-    <string name="check_internet_connection">Check the connection and restart the APP</string>
+    <string name="attention_no_internet">Attention!</string>
+    <string name="check_internet_connection_restart">No Internet connection! \nCheck the connection and restart the APP</string>
+    <string name="check_internet_connection">No Internet connection! \nCheck the connection</string>
 
 
 </resources>

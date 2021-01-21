@@ -8,7 +8,7 @@ import com.jeksonshar.funacademyapp.R
 import java.io.Serializable
 import java.lang.IllegalStateException
 
-class NoInternetConnectionDialog : DialogFragment(), Serializable {
+class NoInternetConnectionListDialog : DialogFragment(), Serializable {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {

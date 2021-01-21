@@ -25,7 +25,7 @@ class MoviesListFragment : Fragment() {
     private var recycler: RecyclerView? = null
     private lateinit var viewModel: MovieListViewModel
     var savedIsFavorite: FavoriteSharedPreferences? = null
-    private var noInternetDialog: NoInternetConnectionDialog? = null
+    private var noInternetDialog: NoInternetConnectionListDialog? = null
 
     companion object {
         const val KEY_DIALOG_NO_INTERNET = "key_dialog_no_internet"
@@ -100,7 +100,7 @@ class MoviesListFragment : Fragment() {
 
     fun showDialogNoInternetConnection(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
-            noInternetDialog = NoInternetConnectionDialog()
+            noInternetDialog = NoInternetConnectionListDialog()
             val noInternetManager = requireActivity().supportFragmentManager
             noInternetDialog?.show(
                 noInternetManager,
@@ -108,7 +108,7 @@ class MoviesListFragment : Fragment() {
             )
         } else {
             noInternetDialog = savedInstanceState
-                .getSerializable(KEY_DIALOG_NO_INTERNET) as NoInternetConnectionDialog
+                .getSerializable(KEY_DIALOG_NO_INTERNET) as NoInternetConnectionListDialog
         }
     }
 

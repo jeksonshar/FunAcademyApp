@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/avatarOfActorMovieImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -29,6 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
+            app:shapeAppearanceOverlay="@style/Theme.Movies.MaterialCardView"
             tools:src="@drawable/image_not_found" />
 
         <TextView
