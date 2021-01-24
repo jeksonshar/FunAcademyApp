@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="back_text">Назад</string>
+    <string name="reviews">ОТЗЫВОВ</string>
+    <string name="storyline_movie">Сюжет:</string>
+    <string name="cast_movie">В ролях:</string>
+    <string name="min">МИН</string>
+
+    <string name="attention_no_internet">Внимание!</string>
+    <string name="check_internet_connection_restart">Отсутствует интернет соединение! \nПроверьте подключение и перезапустите приложение</string>
+    <string name="check_internet_connection">Отсутствует интернет соединение! \nПроверьте подключение</string>
+</resources>

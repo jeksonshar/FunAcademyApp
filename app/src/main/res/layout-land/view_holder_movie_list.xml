@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movieItemListLand"
@@ -24,27 +23,27 @@
             android:id="@+id/movieOfListImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/app_margin_2"
             android:layout_marginStart="@dimen/app_margin_2"
+            android:layout_marginTop="@dimen/app_margin_2"
             android:layout_marginEnd="@dimen/app_margin_2"
             android:contentDescription="@string/image_view"
-            app:shapeAppearanceOverlay="@style/Theme.Movies.MaterialCardView"
+            android:foreground="@drawable/gradient_mask"
             app:layout_constraintDimensionRatio="166:248"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:src="@drawable/for_exemple"
-            android:foreground="@drawable/gradient_mask"/>
+            app:shapeAppearanceOverlay="@style/Theme.Movies.MaterialCardView"
+            tools:src="@drawable/for_exemple" />
 
         <LinearLayout
             android:id="@+id/isFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/app_margin_16"
             android:paddingTop="@dimen/app_margin_10"
             android:paddingEnd="@dimen/app_margin_16"
             android:paddingBottom="@dimen/app_margin_16"
-            android:paddingStart="@dimen/app_margin_16"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -56,7 +55,8 @@
                 android:id="@+id/favoriteImage"
                 android:layout_width="24dp"
                 android:layout_height="21dp"
-                android:src="@drawable/like_on" />
+                android:src="@drawable/like_on"
+                android:contentDescription="@string/image_view" />
         </LinearLayout>
 
         <TextView
@@ -124,11 +124,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/app_margin_8"
             android:layout_marginEnd="@dimen/app_margin_8"
-            android:layout_marginBottom="@dimen/app_margin_20"
+            android:layout_marginBottom="@dimen/app_margin_16"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="@dimen/app_default_text_14"
-            android:maxLines="1"
-            android:ellipsize="end"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

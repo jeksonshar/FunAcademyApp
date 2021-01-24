@@ -23,10 +23,10 @@
                 android:foreground="@drawable/gradient_mask"
                 android:scaleType="centerCrop"
                 app:layout_constraintDimensionRatio="375:298"
-                android:src="@drawable/orig"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/orig" />
 
             <LinearLayout
                 android:id="@+id/backButton"
@@ -36,7 +36,7 @@
                 android:layout_marginTop="@dimen/app_margin_top_62"
                 android:background="@drawable/bg_movie_rating"
                 android:gravity="center"
-                android:padding="@dimen/app_padding_4"
+                android:padding="@dimen/app_padding_8"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -51,7 +51,7 @@
                     android:id="@+id/back_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/app_margin_4"
+                    android:layout_marginStart="@dimen/app_margin_8"
                     android:text="@string/back_text"
                     android:textColor="@color/gray" />
 
@@ -65,10 +65,10 @@
                 android:layout_marginTop="@dimen/app_margin_top_226"
                 android:background="@drawable/bg_movie_rating"
                 android:padding="@dimen/app_padding_4"
-                android:text="@string/rating_movie"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/rating_movie" />
 
             <TextView
                 android:id="@+id/nameMovieView"
@@ -77,13 +77,13 @@
                 android:layout_marginStart="@dimen/app_margin_16"
                 android:layout_marginTop="@dimen/app_margin_top_254"
                 android:layout_marginEnd="@dimen/app_margin_16"
-                android:text="@string/name_movie"
                 android:textColor="@color/white"
                 android:textSize="@dimen/app_default_text_40"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/name_movie" />
 
             <TextView
                 android:id="@+id/tagMovieView"
@@ -92,11 +92,11 @@
                 android:layout_marginStart="@dimen/app_margin_16"
                 android:layout_marginTop="@dimen/app_margin_4"
                 android:layout_marginEnd="@dimen/app_margin_16"
-                android:text="@string/tag_movie"
                 android:textColor="@color/red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameMovieView" />
+                app:layout_constraintTop_toBottomOf="@+id/nameMovieView"
+                tools:text="@string/tag_movie" />
 
             <RatingBar
                 android:id="@+id/ratingBarOfMovie"
@@ -107,11 +107,11 @@
                 android:layout_marginTop="@dimen/app_margin_10"
                 android:foregroundGravity="center"
                 android:numStars="5"
-                android:rating="2"
                 android:stepSize="1"
                 android:theme="@style/Theme.Movies.RatingBar"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tagMovieView" />
+                app:layout_constraintTop_toBottomOf="@id/tagMovieView"
+                tools:rating="2" />
 
             <TextView
                 android:id="@+id/reviewsMovieView"
@@ -119,10 +119,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/app_margin_8"
                 android:layout_marginTop="@dimen/app_margin_8"
-                android:text="@string/review_movie"
                 android:textColor="@color/gray"
                 app:layout_constraintStart_toEndOf="@id/ratingBarOfMovie"
-                app:layout_constraintTop_toBottomOf="@id/tagMovieView" />
+                app:layout_constraintTop_toBottomOf="@id/tagMovieView"
+                tools:text="@string/review_movie" />
 
             <TextView
                 android:id="@+id/storyLineMovieView"
@@ -147,12 +147,12 @@
                 android:layout_marginEnd="@dimen/app_margin_16"
                 android:paddingTop="@dimen/app_padding_8"
                 android:paddingBottom="@dimen/app_padding_8"
-                android:text="@string/description_detail_movie"
                 android:textColor="@color/gray"
                 app:layout_constraintBottom_toTopOf="@id/castMovieView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/storyLineMovieView" />
+                app:layout_constraintTop_toBottomOf="@+id/storyLineMovieView"
+                tools:text="@string/description_detail_movie" />
 
             <TextView
                 android:id="@+id/castMovieView"
@@ -161,6 +161,7 @@
                 android:layout_marginStart="@dimen/app_margin_16"
                 android:layout_marginTop="@dimen/app_margin_16"
                 android:layout_marginEnd="@dimen/app_margin_16"
+                android:layout_marginBottom="@dimen/app_margin_4"
                 android:text="@string/cast_movie"
                 android:textColor="@color/white"
                 android:textStyle="bold"
@@ -181,6 +182,5 @@
                 app:layout_constraintTop_toBottomOf="@id/castMovieView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
