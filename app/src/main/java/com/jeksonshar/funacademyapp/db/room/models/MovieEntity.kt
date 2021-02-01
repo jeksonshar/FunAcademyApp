@@ -4,13 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.jeksonshar.funacademyapp.data.Actor
-import com.jeksonshar.funacademyapp.data.Genre
 
 @Entity(tableName = "movies")
 data class MovieEntity(
     @PrimaryKey
-    @ColumnInfo(name = "id_movie")
+    @ColumnInfo(name = "id")
     val id: Int = 0,
 
     val title: String = "",
@@ -26,5 +24,6 @@ data class MovieEntity(
     val genres: List<GenreEntity> = emptyList(),
     @Embedded
     val actors: List<ActorEntity> = emptyList(),
+
     var isFavorite: Boolean = false
 )

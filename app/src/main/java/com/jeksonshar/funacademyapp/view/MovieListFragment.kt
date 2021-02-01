@@ -17,6 +17,9 @@ import com.jeksonshar.funacademyapp.R
 import com.jeksonshar.funacademyapp.db.FavoriteSharedPreferences
 import com.jeksonshar.funacademyapp.db.RepositoryProvider
 import com.jeksonshar.funacademyapp.data.Movie
+import com.jeksonshar.funacademyapp.db.room.Converters
+import com.jeksonshar.funacademyapp.db.room.MovieDataBase
+import com.jeksonshar.funacademyapp.db.room.models.MovieEntity
 import com.jeksonshar.funacademyapp.viewModels.MovieListViewModel
 import com.jeksonshar.funacademyapp.viewModels.MovieListViewModelFactory
 
@@ -26,6 +29,8 @@ class MoviesListFragment : Fragment() {
     private lateinit var viewModel: MovieListViewModel
     var savedIsFavorite: FavoriteSharedPreferences? = null
     private var noInternetDialog: NoInternetConnectionListDialog? = null
+
+    val db = MovieDataBase.createMovieDB(requireContext())
 
     companion object {
         const val KEY_DIALOG_NO_INTERNET = "key_dialog_no_internet"
@@ -58,7 +63,11 @@ class MoviesListFragment : Fragment() {
         }
 
         viewModel.moviesLiveData.observe(this.viewLifecycleOwner) {
-            recycler?.adapter = MovieListAdapter(clickListener, it)
+            if (!it.isNullOrEmpty()) {
+                saveMoviesToRoom(it)
+            }
+//            recycler?.adapter = MovieListAdapter(clickListener, it)
+            recycler?.adapter = MovieListAdapter(clickListener, getMoviesFromRoom())
         }
 
         /** извлечения значений из SharedPreferences при запуске App */
@@ -90,12 +99,30 @@ class MoviesListFragment : Fragment() {
         outState.putSerializable(KEY_DIALOG_NO_INTERNET, noInternetDialog)
     }
 
+    private fun getMoviesFromRoom(): List<Movie> {
+        val movieEntities = db.moviesDao().getAllMovies()
+        val movies: MutableList<Movie> = ArrayList()
+        for (movieEntity in movieEntities) {
+            movies.add(Converters.convertToMovie(movieEntity))
+        }
+        return movies
+    }
+
+    private fun saveMoviesToRoom(movies: List<Movie>) {
+        val movieEntities: MutableList<MovieEntity> = ArrayList()
+        for (movie in movies) {
+            movieEntities.add(Converters.convertToEntity(movie))
+        }
+        if (!db.moviesDao().getAllMovies().isNullOrEmpty()) {
+            db.moviesDao().deleteAll()
+        }
+        db.moviesDao().insertAll(movieEntities)
+    }
+
     private fun isConnectionAble(): Boolean {
-        val connectionManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE)
-        return if (connectionManager is ConnectivityManager) {
-            val netWorkInfo: NetworkInfo? = connectionManager.activeNetworkInfo
-            netWorkInfo?.isConnectedOrConnecting ?: false
-        } else false
+        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        return activeNetwork?.isConnected == true
     }
 
     fun showDialogNoInternetConnection(savedInstanceState: Bundle?) {
