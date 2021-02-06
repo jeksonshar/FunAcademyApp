@@ -1,11 +1,7 @@
 package com.jeksonshar.funacademyapp.db.room
 
 import androidx.room.TypeConverter
-import com.jeksonshar.funacademyapp.data.Actor
-import com.jeksonshar.funacademyapp.data.Genre
 import com.jeksonshar.funacademyapp.data.Movie
-import com.jeksonshar.funacademyapp.db.room.models.ActorEntity
-import com.jeksonshar.funacademyapp.db.room.models.GenreEntity
 import com.jeksonshar.funacademyapp.db.room.models.MovieEntity
 
 object Converters {
@@ -22,9 +18,7 @@ object Converters {
             numberOfRatings = movie.numberOfRatings,
             minimumAge = movie.minimumAge,
             runtime = movie.runtime,
-            genres = movie.genres as List<GenreEntity>,
-            actors = movie.actors as List<ActorEntity>,
-            isFavorite = movie.isFavorite
+            popularity = movie.popularity
         )
     }
 
@@ -40,9 +34,9 @@ object Converters {
             numberOfRatings = movieEntity.numberOfRatings,
             minimumAge = movieEntity.minimumAge,
             runtime = movieEntity.runtime,
-            genres = movieEntity.genres as List<Genre>,
-            actors = movieEntity.actors as List<Actor>,
-            isFavorite = movieEntity.isFavorite
+            genres = emptyList(),
+            actors = emptyList(),
+            popularity = movieEntity.popularity
         )
     }
 }

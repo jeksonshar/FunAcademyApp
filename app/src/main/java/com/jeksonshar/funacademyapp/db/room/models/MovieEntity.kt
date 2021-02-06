@@ -1,7 +1,6 @@
 package com.jeksonshar.funacademyapp.db.room.models
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -19,11 +18,5 @@ data class MovieEntity(
     val numberOfRatings: Int = 0,
     val minimumAge: Int = 0,
     val runtime: Int = 0,
-
-    @Embedded
-    val genres: List<GenreEntity> = emptyList(),
-    @Embedded
-    val actors: List<ActorEntity> = emptyList(),
-
-    var isFavorite: Boolean = false
+    val popularity: Float = 0F
 )

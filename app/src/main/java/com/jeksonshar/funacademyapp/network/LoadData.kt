@@ -63,7 +63,8 @@ suspend fun loadMoviePopularList(): List<Movie> = withContext(Dispatchers.IO) {
             } else {
                 emptyList()
             },
-            actors = emptyList()
+            actors = emptyList(),
+            popularity = it.popularity
         )
     } ?: emptyList()
 }
@@ -84,6 +85,7 @@ suspend fun loadMovieDetails(id: Int): Movie = withContext(Dispatchers.IO) {
         minimumAge = if (data.adult == true) 16 else 13,
         runtime = 100,
         genres = data.genres ?: emptyList(),
-        actors = loadActorsByMovie(data.id ?: 0)
+        actors = loadActorsByMovie(data.id ?: 0),
+        popularity = data.popularity
     )
 }

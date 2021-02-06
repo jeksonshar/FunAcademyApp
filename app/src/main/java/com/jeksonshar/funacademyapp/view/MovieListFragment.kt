@@ -17,9 +17,7 @@ import com.jeksonshar.funacademyapp.R
 import com.jeksonshar.funacademyapp.db.FavoriteSharedPreferences
 import com.jeksonshar.funacademyapp.db.RepositoryProvider
 import com.jeksonshar.funacademyapp.data.Movie
-import com.jeksonshar.funacademyapp.db.room.Converters
 import com.jeksonshar.funacademyapp.db.room.MovieDataBase
-import com.jeksonshar.funacademyapp.db.room.models.MovieEntity
 import com.jeksonshar.funacademyapp.viewModels.MovieListViewModel
 import com.jeksonshar.funacademyapp.viewModels.MovieListViewModelFactory
 
@@ -30,7 +28,7 @@ class MoviesListFragment : Fragment() {
     var savedIsFavorite: FavoriteSharedPreferences? = null
     private var noInternetDialog: NoInternetConnectionListDialog? = null
 
-    val db = MovieDataBase.createMovieDB(requireContext())
+    lateinit var db: MovieDataBase
 
     companion object {
         const val KEY_DIALOG_NO_INTERNET = "key_dialog_no_internet"
@@ -39,9 +37,11 @@ class MoviesListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        db = MovieDataBase.createMovieDB(requireContext().applicationContext)
+
         viewModel = ViewModelProvider(
             this,
-            MovieListViewModelFactory()
+            MovieListViewModelFactory(db)
         ).get(MovieListViewModel::class.java)
 
         savedIsFavorite = RepositoryProvider.getInstanceFavoriteMovies(requireContext())
@@ -63,11 +63,7 @@ class MoviesListFragment : Fragment() {
         }
 
         viewModel.moviesLiveData.observe(this.viewLifecycleOwner) {
-            if (!it.isNullOrEmpty()) {
-                saveMoviesToRoom(it)
-            }
-//            recycler?.adapter = MovieListAdapter(clickListener, it)
-            recycler?.adapter = MovieListAdapter(clickListener, getMoviesFromRoom())
+            recycler?.adapter = MovieListAdapter(clickListener, it)
         }
 
         /** извлечения значений из SharedPreferences при запуске App */
@@ -97,26 +93,6 @@ class MoviesListFragment : Fragment() {
         super.onSaveInstanceState(outState)
 
         outState.putSerializable(KEY_DIALOG_NO_INTERNET, noInternetDialog)
-    }
-
-    private fun getMoviesFromRoom(): List<Movie> {
-        val movieEntities = db.moviesDao().getAllMovies()
-        val movies: MutableList<Movie> = ArrayList()
-        for (movieEntity in movieEntities) {
-            movies.add(Converters.convertToMovie(movieEntity))
-        }
-        return movies
-    }
-
-    private fun saveMoviesToRoom(movies: List<Movie>) {
-        val movieEntities: MutableList<MovieEntity> = ArrayList()
-        for (movie in movies) {
-            movieEntities.add(Converters.convertToEntity(movie))
-        }
-        if (!db.moviesDao().getAllMovies().isNullOrEmpty()) {
-            db.moviesDao().deleteAll()
-        }
-        db.moviesDao().insertAll(movieEntities)
     }
 
     private fun isConnectionAble(): Boolean {
