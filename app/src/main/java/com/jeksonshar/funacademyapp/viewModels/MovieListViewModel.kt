@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.Transaction
 import com.jeksonshar.funacademyapp.data.Movie
 import com.jeksonshar.funacademyapp.db.room.Converters
 import com.jeksonshar.funacademyapp.db.room.MovieDataBase
@@ -27,9 +28,9 @@ class MovieListViewModel(val db: MovieDataBase) : ViewModel() {
         viewModelScope.launch {
             val deffer = viewModelScope.async(Dispatchers.IO) {
                 var movies = emptyList<Movie>()
-                val cashMovies = getMoviesFromRoom()
-                if (!cashMovies.isNullOrEmpty()) {
-                    movies = cashMovies
+                val cacheMovies = getMoviesFromRoom()
+                if (!cacheMovies.isNullOrEmpty()) {
+                    movies = cacheMovies
                 }
                 movies
             }
@@ -74,31 +75,32 @@ class MovieListViewModel(val db: MovieDataBase) : ViewModel() {
         return movies
     }
 
+    @Transaction
     private suspend fun saveMoviesToRoom(movies: List<Movie>) {
         val movieEntities: MutableList<MovieEntity> = ArrayList()
         val genreEntities: MutableList<GenreEntity> = ArrayList()
         val actorEntities: MutableList<ActorEntity> = ArrayList()
         for (movie in movies) {
             movieEntities.add(Converters.convertToMovieEntity(movie))
-//            for (genre in movie.genres) {
-//                val genreEntity = GenreEntity(id = genre.id, name = genre.name, movieId = movie.id)
-//                genreEntities.add(genreEntity)
-//            }
             genreEntities.addAll(Converters.convertToGenreEntity(movie))
             actorEntities.addAll(Converters.convertToActorEntity(movie))
         }
         for (movie in movies) {
             if (!db.moviesDao().getAllMoviesByPopular().isNullOrEmpty()) {
                 db.moviesDao().deleteAllMovies()
-            } else if (!db.moviesDao().getGenresByMovie(movie.id).isNullOrEmpty()) {
+            }
+
+            if (!db.moviesDao().getGenresByMovie(movie.id).isNullOrEmpty()) {
                 db.moviesDao().deleteGenres()
-            } else if (!db.moviesDao().getActorsByMovie(movie.id).isNullOrEmpty()) {
+            }
+
+            if (!db.moviesDao().getActorsByMovie(movie.id).isNullOrEmpty()) {
                 db.moviesDao().deleteActors()
             }
         }
 
-        db.moviesDao().insertAllMovies(movieEntities) // тут отрабатывает
-        db.moviesDao().insertGenres(genreEntities) // тут все падает
+        db.moviesDao().insertAllMovies(movieEntities)
+        db.moviesDao().insertGenres(genreEntities)
         db.moviesDao().insertActors(actorEntities)
     }
 }

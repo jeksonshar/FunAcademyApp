@@ -20,11 +20,17 @@ interface MovieDao {
     @Insert
     suspend fun insertAllMovies(movies: List<MovieEntity>)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertGenres(genres: List<GenreEntity>)
 
-    @Insert
+//    @Update
+//    suspend fun updateGenres(genres: List<GenreEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertActors(actors: List<ActorEntity>)
+
+//    @Update
+//    suspend fun updateActors(actors: List<ActorEntity>)
 
     @Query("DELETE FROM movies" )
     suspend fun deleteAllMovies()
