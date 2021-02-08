@@ -18,5 +18,5 @@ data class GenreEntity(
     @ColumnInfo(name = "id")
     val id: Int = 0,
     val name: String = "",
-    val movieId: Int = 0
+    var movieId: Int = 0
 )
