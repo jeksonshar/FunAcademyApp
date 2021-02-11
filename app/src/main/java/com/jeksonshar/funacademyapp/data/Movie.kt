@@ -10,7 +10,7 @@ data class Movie(
     val numberOfRatings: Int,
     val minimumAge: Int,
     val runtime: Int,
-    val popularity:Float,
+    val popularity: Float,
     val genres: List<Genre>,
     val actors: List<Actor>,
     var isFavorite: Boolean = false

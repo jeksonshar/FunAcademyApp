@@ -64,7 +64,6 @@ suspend fun loadMoviePopularList(): List<Movie> = withContext(Dispatchers.IO) {
                 emptyList()
             },
             actors = loadActorsByMovie(it.id ?: 0),
-//            actors = emptyList(),
             popularity = it.popularity
         )
     } ?: emptyList()

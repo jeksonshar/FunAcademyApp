@@ -22,8 +22,26 @@ object Converters {
             numberOfRatings = movie.numberOfRatings,
             minimumAge = movie.minimumAge,
             runtime = movie.runtime,
+            genres = convertGenresIdToString(movie),
+            actors = convertActorsIdToString(movie),
             popularity = movie.popularity
         )
+    }
+
+    private fun convertGenresIdToString(movie: Movie): String {
+        val genresId: MutableList<Int> = ArrayList()
+        for (genre in movie.genres) {
+            genresId.add(genre.id)
+        }
+        return (genresId as List<*>).joinToString(",")
+    }
+
+    private fun convertActorsIdToString(movie: Movie): String {
+        val actorsId: MutableList<Int> = ArrayList()
+        for (actor in movie.actors) {
+            actorsId.add(actor.id)
+        }
+        return (actorsId as List<*>).joinToString(",")
     }
 
     @TypeConverter
@@ -33,8 +51,7 @@ object Converters {
             genres.add(
                 GenreEntity(
                     id = genre.id,
-                    name = genre.name,
-                    movieId = movie.id
+                    name = genre.name
                 )
             )
         }
@@ -49,47 +66,18 @@ object Converters {
                 ActorEntity(
                     id = actor.id,
                     name = actor.name,
-                    picture = actor.picture,
-                    movieId = movie.id
+                    picture = actor.picture
                 )
             )
         }
         return actors
     }
 
-    private fun convertToGenre(genreEntity: GenreEntity): Genre {
-        return Genre(
-            name = genreEntity.name,
-            id = genreEntity.id
-        )
-    }
-
-    private fun convertToListGenre(genres: List<GenreEntity>): List<Genre> {
-        val genresList: MutableList<Genre> = ArrayList()
-        for (genre in genres) {
-            genresList.add(convertToGenre(genre))
-        }
-        return genresList
-    }
-
-    private fun convertToActor(actorEntity: ActorEntity): Actor {
-        return Actor(
-            id = actorEntity.id,
-            name = actorEntity.name,
-            picture = actorEntity.picture
-        )
-    }
-
-    private fun convertToListActor(actors: List<ActorEntity>): List<Actor> {
-        val actorsList: MutableList<Actor> = ArrayList()
-        for (actor in actors) {
-            actorsList.add(convertToActor(actor))
-        }
-        return actorsList
-    }
-
     @TypeConverter
     fun convertToMovie(movieWithActorsAndGenes: MovieWithActorsAndGenes): Movie {
+        val genresMap = movieWithActorsAndGenes.genres.associateBy { it.id }
+        val actorsMap = movieWithActorsAndGenes.actors.associateBy { it.id }
+
         return Movie(
             id = movieWithActorsAndGenes.movieEntity.id,
             title = movieWithActorsAndGenes.movieEntity.title,
@@ -100,9 +88,46 @@ object Converters {
             numberOfRatings = movieWithActorsAndGenes.movieEntity.numberOfRatings,
             minimumAge = movieWithActorsAndGenes.movieEntity.minimumAge,
             runtime = movieWithActorsAndGenes.movieEntity.runtime,
-            genres = convertToListGenre(movieWithActorsAndGenes.genres),
-            actors = convertToListActor(movieWithActorsAndGenes.actors),
+            genres = convertToListGenre(movieWithActorsAndGenes.movieEntity.genres).map {
+                convertToGenre(genresMap[it] ?: throw IllegalArgumentException("Genre not found"))
+            },
+            actors = convertToListActor(movieWithActorsAndGenes.movieEntity.actors).map {
+                convertToActor(actorsMap[it] ?: throw IllegalArgumentException("Actor not found"))
+            },
             popularity = movieWithActorsAndGenes.movieEntity.popularity
+        )
+    }
+
+    private fun convertToListGenre(genreString: String): List<Int> {
+        val genreListString = genreString.split(",")
+        val genreListInt: MutableList<Int> = ArrayList()
+        for (genre in genreListString) {
+            genreListInt.add(genre.toInt())
+        }
+        return genreListInt
+    }
+
+    private fun convertToGenre(genreEntity: GenreEntity): Genre {
+        return Genre(
+            name = genreEntity.name,
+            id = genreEntity.id
+        )
+    }
+
+    private fun convertToListActor(actorString: String): List<Int> {
+        val actorListString = actorString.split(",")
+        val actorsListInt: MutableList<Int> = ArrayList()
+        for (actor in actorListString) {
+            actorsListInt.add(actor.toInt())
+        }
+        return actorsListInt
+    }
+
+    private fun convertToActor(actorEntity: ActorEntity): Actor {
+        return Actor(
+            id = actorEntity.id,
+            name = actorEntity.name,
+            picture = actorEntity.picture
         )
     }
 }

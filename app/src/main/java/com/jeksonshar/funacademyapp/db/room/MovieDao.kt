@@ -11,11 +11,14 @@ interface MovieDao {
     @Query("SELECT * FROM movies ORDER BY popularity DESC")
     suspend fun getAllMoviesByPopular(): List<MovieEntity>
 
-    @Query("SELECT * FROM genres WHERE movieId == :id")
-    fun getGenresByMovie(id: Int): List<GenreEntity>
+    @Query("SELECT * FROM genres")
+    suspend fun getGenresByMovie(): List<GenreEntity>
 
-    @Query("SELECT * FROM actors WHERE movieId == :id")
-    fun getActorsByMovie(id: Int): List<ActorEntity>
+    @Query("SELECT * FROM actors")
+    suspend fun getActorsByMovie(): List<ActorEntity>
+
+    @Query("SELECT * FROM movies WHERE id == :idMovie")
+    suspend fun getMovieById(idMovie: Int): MovieEntity
 
     @Insert
     suspend fun insertAllMovies(movies: List<MovieEntity>)
@@ -23,16 +26,10 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertGenres(genres: List<GenreEntity>)
 
-//    @Update
-//    suspend fun updateGenres(genres: List<GenreEntity>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertActors(actors: List<ActorEntity>)
 
-//    @Update
-//    suspend fun updateActors(actors: List<ActorEntity>)
-
-    @Query("DELETE FROM movies" )
+    @Query("DELETE FROM movies")
     suspend fun deleteAllMovies()
 
     @Query("DELETE FROM genres")

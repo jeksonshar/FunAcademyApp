@@ -18,5 +18,7 @@ data class MovieEntity(
     val numberOfRatings: Int = 0,
     val minimumAge: Int = 0,
     val runtime: Int = 0,
+    val genres: String = "",
+    val actors: String = "",
     val popularity: Float = 0F
 )

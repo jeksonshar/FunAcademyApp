@@ -128,6 +128,13 @@ class MoviesListFragment : Fragment() {
                     .commit()
             } else {
                 showDialogNoInternetConnection(null)
+                parentFragmentManager.beginTransaction()
+                    .addToBackStack(null)
+                    .replace(
+                        R.id.fragment_container,
+                        MovieDetailsFragment.newInstance(movie.id)
+                    )
+                    .commit()
             }
         }
 

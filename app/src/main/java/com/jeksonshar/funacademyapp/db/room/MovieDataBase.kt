@@ -11,7 +11,7 @@ import com.jeksonshar.funacademyapp.db.room.models.MovieEntity
 
 @Database(
     entities = [MovieEntity::class, GenreEntity::class, ActorEntity::class],
-    version = 3,
+    version = 1,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Transaction
 import com.jeksonshar.funacademyapp.data.Movie
 import com.jeksonshar.funacademyapp.db.room.Converters
 import com.jeksonshar.funacademyapp.db.room.MovieDataBase
@@ -37,7 +36,7 @@ class MovieListViewModel(val db: MovieDataBase) : ViewModel() {
             try {
                 _moviesLiveData.value = deffer.await()
             } catch (e: IOException) {
-                Log.d("Смотри - ", "AndroidRuntime: FATAL EXCEPTION")
+                Log.d("Смотри - ", "AndroidRuntime: FATAL EXCEPTION ListViewModel")
             }
         }
 
@@ -57,25 +56,29 @@ class MovieListViewModel(val db: MovieDataBase) : ViewModel() {
                     _moviesLiveData.value = resDefer
                 }
             } catch (e: IOException) {
-                Log.d("Смотри - ", "AndroidRuntime: FATAL EXCEPTION")
+                Log.d("Смотри - ", "EXCEPTION  ListViewModel: нет данных от API")
             }
         }
     }
 
     private suspend fun getMoviesFromRoom(): List<Movie> {
         val movies: MutableList<Movie> = ArrayList()
-        val movieEntities = db.moviesDao().getAllMoviesByPopular()
-        for (movieEntity in movieEntities) {
-            val genresEntity = db.moviesDao().getGenresByMovie(movieEntity.id)
-            val actorsEntity = db.moviesDao().getActorsByMovie(movieEntity.id)
-            val movieWithActorsAndGenes = MovieWithActorsAndGenes(movieEntity, genresEntity, actorsEntity)
 
+        val movieEntities = db.moviesDao().getAllMoviesByPopular()
+        val genreEntities = db.moviesDao().getGenresByMovie()
+        val actorEntities = db.moviesDao().getActorsByMovie()
+
+        for (movieEntity in movieEntities) {
+            val movieWithActorsAndGenes = MovieWithActorsAndGenes(
+                movieEntity,
+                genreEntities,
+                actorEntities
+            )
             movies.add(Converters.convertToMovie(movieWithActorsAndGenes))
         }
         return movies
     }
 
-    @Transaction
     private suspend fun saveMoviesToRoom(movies: List<Movie>) {
         val movieEntities: MutableList<MovieEntity> = ArrayList()
         val genreEntities: MutableList<GenreEntity> = ArrayList()
@@ -85,18 +88,17 @@ class MovieListViewModel(val db: MovieDataBase) : ViewModel() {
             genreEntities.addAll(Converters.convertToGenreEntity(movie))
             actorEntities.addAll(Converters.convertToActorEntity(movie))
         }
-        for (movie in movies) {
-            if (!db.moviesDao().getAllMoviesByPopular().isNullOrEmpty()) {
-                db.moviesDao().deleteAllMovies()
-            }
 
-            if (!db.moviesDao().getGenresByMovie(movie.id).isNullOrEmpty()) {
-                db.moviesDao().deleteGenres()
-            }
+        if (!db.moviesDao().getAllMoviesByPopular().isNullOrEmpty()) {
+            db.moviesDao().deleteAllMovies()
+        }
 
-            if (!db.moviesDao().getActorsByMovie(movie.id).isNullOrEmpty()) {
-                db.moviesDao().deleteActors()
-            }
+        if (!db.moviesDao().getGenresByMovie().isNullOrEmpty()) {
+            db.moviesDao().deleteGenres()
+        }
+
+        if (!db.moviesDao().getActorsByMovie().isNullOrEmpty()) {
+            db.moviesDao().deleteActors()
         }
 
         db.moviesDao().insertAllMovies(movieEntities)
