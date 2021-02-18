@@ -33,10 +33,10 @@ class MovieUpdateWorker(context: Context, workerParameters: WorkerParameters) :
         return result
     }
 
-    val db = MovieDataBase.createMovieDB(applicationContext)
-
     //этот код дублируется, нужно исправить
     private suspend fun saveMoviesToRoom(movies: List<Movie>) {
+
+        val db = MovieDataBase.createMovieDB(applicationContext)
 
         val movieEntities: MutableList<MovieEntity> = ArrayList()
         val genreEntities: MutableList<GenreEntity> = ArrayList()
