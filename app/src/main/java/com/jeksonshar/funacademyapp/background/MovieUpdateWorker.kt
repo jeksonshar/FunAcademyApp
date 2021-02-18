@@ -1,6 +1,7 @@
 package com.jeksonshar.funacademyapp.background
 
 import android.content.Context
+import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.jeksonshar.funacademyapp.data.Movie
@@ -25,16 +26,17 @@ class MovieUpdateWorker(context: Context, workerParameters: WorkerParameters) :
             if (!apiMovies.isNullOrEmpty()) {
                 movies.addAll(apiMovies)
                 saveMoviesToRoom(movies)
+                Log.d("Смотри - ", "обновление базы выполнено")
                 result = Result.success()
             }
         }
         return result
     }
 
+    val db = MovieDataBase.createMovieDB(applicationContext)
+
     //этот код дублируется, нужно исправить
     private suspend fun saveMoviesToRoom(movies: List<Movie>) {
-
-        val db = MovieDataBase.createMovieDB(applicationContext)
 
         val movieEntities: MutableList<MovieEntity> = ArrayList()
         val genreEntities: MutableList<GenreEntity> = ArrayList()
