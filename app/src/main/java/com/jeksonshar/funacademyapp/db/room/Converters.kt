@@ -16,6 +16,7 @@ object Converters {
             id = movie.id,
             title = movie.title,
             overview = movie.overview,
+            popularity = movie.popularity,
             poster = movie.poster,
             backdrop = movie.backdrop,
             ratings = movie.ratings,
@@ -23,8 +24,7 @@ object Converters {
             minimumAge = movie.minimumAge,
             runtime = movie.runtime,
             genres = convertGenresIdToString(movie),
-            actors = convertActorsIdToString(movie),
-            popularity = movie.popularity
+            actors = convertActorsIdToString(movie)
         )
     }
 
@@ -78,24 +78,26 @@ object Converters {
         val genresMap = movieWithActorsAndGenes.genres.associateBy { it.id }
         val actorsMap = movieWithActorsAndGenes.actors.associateBy { it.id }
 
-        return Movie(
-            id = movieWithActorsAndGenes.movieEntity.id,
-            title = movieWithActorsAndGenes.movieEntity.title,
-            overview = movieWithActorsAndGenes.movieEntity.overview,
-            poster = movieWithActorsAndGenes.movieEntity.poster,
-            backdrop = movieWithActorsAndGenes.movieEntity.backdrop,
-            ratings = movieWithActorsAndGenes.movieEntity.ratings,
-            numberOfRatings = movieWithActorsAndGenes.movieEntity.numberOfRatings,
-            minimumAge = movieWithActorsAndGenes.movieEntity.minimumAge,
-            runtime = movieWithActorsAndGenes.movieEntity.runtime,
-            genres = convertToListGenre(movieWithActorsAndGenes.movieEntity.genres).map {
-                convertToGenre(genresMap[it] ?: throw IllegalArgumentException("Genre not found"))
-            },
-            actors = convertToListActor(movieWithActorsAndGenes.movieEntity.actors).map {
-                convertToActor(actorsMap[it] ?: throw IllegalArgumentException("Actor not found"))
-            },
-            popularity = movieWithActorsAndGenes.movieEntity.popularity
-        )
+        return with(movieWithActorsAndGenes.movieEntity) {
+            Movie(
+                id = id,
+                title = title,
+                overview = overview,
+                popularity = popularity,
+                poster = poster,
+                backdrop = backdrop,
+                ratings = ratings,
+                numberOfRatings = numberOfRatings,
+                minimumAge = minimumAge,
+                runtime = runtime,
+                genres = convertToListGenre(genres).map {
+                    convertToGenre(genresMap[it] ?: throw IllegalArgumentException("Genre not found"))
+                },
+                actors = convertToListActor(actors).map {
+                    convertToActor(actorsMap[it] ?: throw IllegalArgumentException("Actor not found"))
+                }
+            )
+        }
     }
 
     private fun convertToListGenre(genreString: String): List<Int> {
