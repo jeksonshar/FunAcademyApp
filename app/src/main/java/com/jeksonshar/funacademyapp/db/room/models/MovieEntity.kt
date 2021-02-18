@@ -12,6 +12,7 @@ data class MovieEntity(
 
     val title: String = "",
     val overview: String = "",
+    val popularity: Float = 0F,
     val poster: String = "",
     val backdrop: String = "",
     val ratings: Float = 0F,
@@ -19,6 +20,5 @@ data class MovieEntity(
     val minimumAge: Int = 0,
     val runtime: Int = 0,
     val genres: String = "",
-    val actors: String = "",
-    val popularity: Float = 0F
+    val actors: String = ""
 )

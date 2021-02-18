@@ -13,7 +13,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.WorkManager
 import com.jeksonshar.funacademyapp.R
+import com.jeksonshar.funacademyapp.background.MovieUpdateRepository
 import com.jeksonshar.funacademyapp.db.FavoriteSharedPreferences
 import com.jeksonshar.funacademyapp.db.RepositoryProvider
 import com.jeksonshar.funacademyapp.data.Movie
@@ -75,6 +77,8 @@ class MoviesListFragment : Fragment() {
             recycler?.layoutManager =
                 LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
         }
+
+        WorkManager.getInstance(requireContext()).enqueue(MovieUpdateRepository().movieUpdateWorker)
     }
 
     override fun onAttach(context: Context) {
@@ -118,24 +122,16 @@ class MoviesListFragment : Fragment() {
     private var clickListener: MovieFragmentClickListener? = object : MovieFragmentClickListener {
 
         override fun addMovieDetailFragment(movie: Movie) {
-            if (isConnectionAble()) {
-                parentFragmentManager.beginTransaction()
-                    .addToBackStack(null)
-                    .replace(
-                        R.id.fragment_container,
-                        MovieDetailsFragment.newInstance(movie.id)
-                    )
-                    .commit()
-            } else {
+            if (!isConnectionAble()) {
                 showDialogNoInternetConnection(null)
-                parentFragmentManager.beginTransaction()
-                    .addToBackStack(null)
-                    .replace(
-                        R.id.fragment_container,
-                        MovieDetailsFragment.newInstance(movie.id)
-                    )
-                    .commit()
             }
+            parentFragmentManager.beginTransaction()
+                .addToBackStack(null)
+                .replace(
+                    R.id.fragment_container,
+                    MovieDetailsFragment.newInstance(movie.id)
+                )
+                .commit()
         }
 
         override fun changeFavoriteValue(movie: Movie) {

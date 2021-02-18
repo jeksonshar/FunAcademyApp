@@ -50,6 +50,7 @@ suspend fun loadMoviePopularList(): List<Movie> = withContext(Dispatchers.IO) {
             id = it.id ?: 0,
             title = it.title ?: "",
             overview = it.overview ?: "",
+            popularity = it.popularity ?: 0F,
             poster = baseUrl + "w500" + it.posterPath,
             backdrop = baseUrl + "w500" + it.backdropPath,
             ratings = it.voteAverage ?: 0F,
@@ -63,8 +64,7 @@ suspend fun loadMoviePopularList(): List<Movie> = withContext(Dispatchers.IO) {
             } else {
                 emptyList()
             },
-            actors = loadActorsByMovie(it.id ?: 0),
-            popularity = it.popularity
+            actors = loadActorsByMovie(it.id ?: 0)
         )
     } ?: emptyList()
 }
@@ -78,6 +78,7 @@ suspend fun loadMovieDetails(id: Int): Movie = withContext(Dispatchers.IO) {
         id = data.id ?: 0,
         title = data.title ?: "",
         overview = data.overview ?: "",
+        popularity = data.popularity ?: 0F,
         poster = baseUrl + "w500" + data.posterPath,
         backdrop = baseUrl + "w500" + data.backdropPath,
         ratings = data.voteAverage ?: 0F,
@@ -85,7 +86,6 @@ suspend fun loadMovieDetails(id: Int): Movie = withContext(Dispatchers.IO) {
         minimumAge = if (data.adult == true) 16 else 13,
         runtime = 100,
         genres = data.genres ?: emptyList(),
-        actors = loadActorsByMovie(data.id ?: 0),
-        popularity = data.popularity
+        actors = loadActorsByMovie(data.id ?: 0)
     )
 }

@@ -27,7 +27,7 @@ class MovieListViewModel(val db: MovieDataBase) : ViewModel() {
         viewModelScope.launch {
             val deffer = viewModelScope.async(Dispatchers.IO) {
                 var movies = emptyList<Movie>()
-                val cacheMovies = getMoviesFromRoom()
+                val cacheMovies = getMoviesByPopularFromRoom()
                 if (!cacheMovies.isNullOrEmpty()) {
                     movies = cacheMovies
                 }
@@ -42,13 +42,11 @@ class MovieListViewModel(val db: MovieDataBase) : ViewModel() {
 
         viewModelScope.launch {
             val deffer = viewModelScope.async(Dispatchers.IO) {
-                var movies = emptyList<Movie>()
                 val apiMovies = loadMoviePopularList()
                 if (!apiMovies.isNullOrEmpty()) {
-                    movies = apiMovies
-                    saveMoviesToRoom(movies)
+                    saveMoviesToRoom(apiMovies)
                 }
-                movies
+                getMoviesByPopularFromRoom()
             }
             try {
                 val resDefer = deffer.await()
@@ -61,7 +59,7 @@ class MovieListViewModel(val db: MovieDataBase) : ViewModel() {
         }
     }
 
-    private suspend fun getMoviesFromRoom(): List<Movie> {
+    private suspend fun getMoviesByPopularFromRoom(): List<Movie> {
         val movies: MutableList<Movie> = ArrayList()
 
         val movieEntities = db.moviesDao().getAllMoviesByPopular()
