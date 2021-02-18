@@ -20,7 +20,7 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE id == :idMovie")
     suspend fun getMovieById(idMovie: Int): MovieEntity
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllMovies(movies: List<MovieEntity>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
