@@ -14,15 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jeksonshar.funacademyapp.R
-import com.jeksonshar.funacademyapp.db.room.MovieDataBase
 import com.jeksonshar.funacademyapp.viewModels.MovieDetailsViewModel
 import com.jeksonshar.funacademyapp.viewModels.MovieDetailsViewModelFactory
 
 class MovieDetailsFragment : Fragment() {
 
     private lateinit var viewModel: MovieDetailsViewModel
-
-    val db: MovieDataBase by lazy { MovieDataBase.createMovieDB(requireContext().applicationContext) }
 
     companion object {
         private const val MOVIE_KEY = "MovieItem"
@@ -43,7 +40,7 @@ class MovieDetailsFragment : Fragment() {
 
         viewModel = ViewModelProvider(
             this,
-            MovieDetailsViewModelFactory(idMovie, db)
+            MovieDetailsViewModelFactory(idMovie, requireActivity().application)
         ).get(MovieDetailsViewModel::class.java)
     }
 

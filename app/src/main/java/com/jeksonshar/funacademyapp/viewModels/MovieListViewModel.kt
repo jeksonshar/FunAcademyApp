@@ -1,5 +1,6 @@
 package com.jeksonshar.funacademyapp.viewModels
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,10 +19,14 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class MovieListViewModel(val db: MovieDataBase) : ViewModel() {
+class MovieListViewModel(private val application: Application) : ViewModel() {
 
     private val _moviesLiveData = MutableLiveData<List<Movie>>()
     val moviesLiveData: LiveData<List<Movie>> = _moviesLiveData
+
+    val db: MovieDataBase by lazy {
+        MovieDataBase.createMovieDB(application.applicationContext)
+    }
 
     init {
         viewModelScope.launch {

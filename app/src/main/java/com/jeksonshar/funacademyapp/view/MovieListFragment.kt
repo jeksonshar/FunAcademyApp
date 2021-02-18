@@ -19,7 +19,6 @@ import com.jeksonshar.funacademyapp.background.MovieUpdateRepository
 import com.jeksonshar.funacademyapp.db.FavoriteSharedPreferences
 import com.jeksonshar.funacademyapp.db.RepositoryProvider
 import com.jeksonshar.funacademyapp.data.Movie
-import com.jeksonshar.funacademyapp.db.room.MovieDataBase
 import com.jeksonshar.funacademyapp.viewModels.MovieListViewModel
 import com.jeksonshar.funacademyapp.viewModels.MovieListViewModelFactory
 
@@ -30,8 +29,6 @@ class MoviesListFragment : Fragment() {
     var savedIsFavorite: FavoriteSharedPreferences? = null
     private var noInternetDialog: NoInternetConnectionListDialog? = null
 
-    lateinit var db: MovieDataBase
-
     companion object {
         const val KEY_DIALOG_NO_INTERNET = "key_dialog_no_internet"
     }
@@ -39,11 +36,9 @@ class MoviesListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        db = MovieDataBase.createMovieDB(requireContext().applicationContext)
-
         viewModel = ViewModelProvider(
             this,
-            MovieListViewModelFactory(db)
+            MovieListViewModelFactory(requireActivity().application)
         ).get(MovieListViewModel::class.java)
 
         savedIsFavorite = RepositoryProvider.getInstanceFavoriteMovies(requireContext())
