@@ -18,25 +18,27 @@ import kotlinx.coroutines.launch
 class MovieUpdateWorker(context: Context, workerParameters: WorkerParameters) :
     Worker(context, workerParameters) {
     override fun doWork(): Result {
-        var result = Result.retry()
         val scope = CoroutineScope(Dispatchers.IO)
-        scope.launch {
-            val movies: MutableList<Movie> = ArrayList()
-            val apiMovies = loadMoviePopularList()
-            if (!apiMovies.isNullOrEmpty()) {
-                movies.addAll(apiMovies)
-                saveMoviesToRoom(movies)
-                Log.d("Смотри - ", "обновление базы выполнено")
-                result = Result.success()
+        return try {
+            scope.launch {
+                val movies: MutableList<Movie> = ArrayList()
+                val apiMovies = loadMoviePopularList()
+                if (!apiMovies.isNullOrEmpty()) {
+                    movies.addAll(apiMovies)
+                    saveMoviesToRoom(movies)
+                    Log.d("Смотри - ", "обновление базы выполнено")
+                }
             }
+            Result.success()
+        } catch (e: Exception) {
+            Result.retry()
         }
-        return result
     }
+
+    val db = MovieDataBase.createMovieDB(applicationContext)
 
     //этот код дублируется, нужно исправить
     private suspend fun saveMoviesToRoom(movies: List<Movie>) {
-
-        val db = MovieDataBase.createMovieDB(applicationContext)
 
         val movieEntities: MutableList<MovieEntity> = ArrayList()
         val genreEntities: MutableList<GenreEntity> = ArrayList()

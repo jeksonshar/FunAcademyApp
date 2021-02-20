@@ -2,7 +2,7 @@ package com.jeksonshar.funacademyapp.background
 
 import androidx.work.Constraints
 import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.PeriodicWorkRequest
 import java.util.concurrent.TimeUnit
 
 class MovieUpdateRepository {
@@ -11,7 +11,13 @@ class MovieUpdateRepository {
         .setRequiredNetworkType(NetworkType.UNMETERED)
 //        .setRequiresCharging(true)
         .build()
-    val movieUpdateWorker = PeriodicWorkRequestBuilder<MovieUpdateWorker>(8, TimeUnit.HOURS)
+    val movieUpdateWorker = PeriodicWorkRequest.Builder(
+        MovieUpdateWorker::class.java,
+        20,
+        TimeUnit.MINUTES,
+        10,
+        TimeUnit.MINUTES
+    )
         .setConstraints(constraint)
         .build()
 }
