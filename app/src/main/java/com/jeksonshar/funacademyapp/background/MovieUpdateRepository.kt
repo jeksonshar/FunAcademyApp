@@ -9,14 +9,14 @@ class MovieUpdateRepository {
 
     private val constraint = Constraints.Builder()
         .setRequiredNetworkType(NetworkType.UNMETERED)
-//        .setRequiresCharging(true)
+        .setRequiresCharging(true)
         .build()
     val movieUpdateWorker = PeriodicWorkRequest.Builder(
         MovieUpdateWorker::class.java,
-        20,
-        TimeUnit.MINUTES,
-        10,
-        TimeUnit.MINUTES
+        8,
+        TimeUnit.HOURS,
+        4,
+        TimeUnit.HOURS
     )
         .setConstraints(constraint)
         .build()

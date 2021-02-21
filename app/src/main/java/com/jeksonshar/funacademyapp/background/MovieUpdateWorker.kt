@@ -17,6 +17,9 @@ import kotlinx.coroutines.launch
 
 class MovieUpdateWorker(context: Context, workerParameters: WorkerParameters) :
     Worker(context, workerParameters) {
+
+    val db = MovieDataBase.createMovieDB(applicationContext)
+
     override fun doWork(): Result {
         val scope = CoroutineScope(Dispatchers.IO)
         return try {
@@ -34,8 +37,6 @@ class MovieUpdateWorker(context: Context, workerParameters: WorkerParameters) :
             Result.retry()
         }
     }
-
-    val db = MovieDataBase.createMovieDB(applicationContext)
 
     //этот код дублируется, нужно исправить
     private suspend fun saveMoviesToRoom(movies: List<Movie>) {

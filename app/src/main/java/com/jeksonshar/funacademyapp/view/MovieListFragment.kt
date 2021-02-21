@@ -73,6 +73,7 @@ class MoviesListFragment : Fragment() {
                 LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
         }
 
+        WorkManager.getInstance(requireContext()).cancelAllWork()
         WorkManager.getInstance(requireContext()).enqueue(MovieUpdateRepository().movieUpdateWorker)
     }
 
