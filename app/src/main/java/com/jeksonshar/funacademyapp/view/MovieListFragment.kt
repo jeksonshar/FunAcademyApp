@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
 import com.jeksonshar.funacademyapp.R
 import com.jeksonshar.funacademyapp.background.MovieUpdateRepository
@@ -31,6 +32,7 @@ class MoviesListFragment : Fragment() {
 
     companion object {
         const val KEY_DIALOG_NO_INTERNET = "key_dialog_no_internet"
+        const val UNIQUE_WORK_NAME = "uniqueWorkName"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +65,10 @@ class MoviesListFragment : Fragment() {
             recycler?.adapter = MovieListAdapter(clickListener, it)
         }
 
+        viewModel.observeMoviesUpdates().observe(this.viewLifecycleOwner, {
+            MovieListAdapter(clickListener, it).submitList(it)
+        })
+
         /** извлечения значений из SharedPreferences при запуске App */
         savedIsFavorite?.getFavoriteMovies()
 
@@ -75,6 +81,11 @@ class MoviesListFragment : Fragment() {
 
         WorkManager.getInstance(requireContext()).cancelAllWork()
         WorkManager.getInstance(requireContext()).enqueue(MovieUpdateRepository().movieUpdateWorker)
+//        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+//            UNIQUE_WORK_NAME,
+//            ExistingPeriodicWorkPolicy.KEEP,
+//            MovieUpdateRepository().movieUpdateWorker
+//        )
     }
 
     override fun onAttach(context: Context) {
