@@ -22,9 +22,6 @@ class MovieListViewModel(private val application: Application) : ViewModel() {
     private val _moviesLiveData = MutableLiveData<List<Movie>>()
     val moviesLiveData: LiveData<List<Movie>> = _moviesLiveData
 
-    private val _res = MutableLiveData<List<Movie>>()
-    val res: LiveData<List<Movie>> = _res
-
     val db: MovieDataBase by lazy {
         MovieDataBase.createMovieDB(application.applicationContext)
     }
@@ -35,7 +32,7 @@ class MovieListViewModel(private val application: Application) : ViewModel() {
         viewModelScope.launch {
             val deffer = viewModelScope.async(Dispatchers.IO) {
                 var movies = emptyList<Movie>()
-                val cacheMovies = getMoviesByPopularFromRoom()
+                val cacheMovies = getMoviesByPopularFromRoom().value
                 if (!cacheMovies.isNullOrEmpty()) {
                     movies = cacheMovies
                 }
@@ -57,9 +54,9 @@ class MovieListViewModel(private val application: Application) : ViewModel() {
                 getMoviesByPopularFromRoom()
             }
             try {
-                val resDefer = deffer.await()
+                val resDefer = deffer.await().value
                 if (!resDefer.isNullOrEmpty()) {
-                    _moviesLiveData.value = resDefer
+                    _moviesLiveData.value = resDefer!!
                 }
             } catch (e: IOException) {
                 Log.d("Смотри - ", "EXCEPTION  ListViewModel: нет данных от API")
@@ -67,7 +64,12 @@ class MovieListViewModel(private val application: Application) : ViewModel() {
         }
     }
 
-    private suspend fun getMoviesByPopularFromRoom(): List<Movie> {
+    override fun onCleared() {
+        db.close()
+        super.onCleared()
+    }
+
+    private suspend fun getMoviesByPopularFromRoom(): LiveData<List<Movie>> {
         val movies: MutableList<Movie> = ArrayList()
 
         val movieEntities = db.moviesDao().getAllMoviesByPopular()
@@ -82,14 +84,15 @@ class MovieListViewModel(private val application: Application) : ViewModel() {
             )
             movies.add(Converters.convertToMovie(movieWithActorsAndGenes))
         }
-        return movies
+        return MutableLiveData(movies)
     }
 
     // ??????????
     fun observeMoviesUpdates(): LiveData<List<Movie>> {
+        var observableMovies: LiveData<List<Movie>> = MutableLiveData()
         viewModelScope.launch {
-            _res.value = getMoviesByPopularFromRoom()
+            observableMovies = getMoviesByPopularFromRoom()
         }
-        return res
+        return observableMovies
     }
 }

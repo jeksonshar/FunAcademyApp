@@ -55,6 +55,11 @@ class MovieDetailsViewModel(
         }
     }
 
+    override fun onCleared() {
+        db.close()
+        super.onCleared()
+    }
+
     private suspend fun getMovieFromRoom(idMovie: Int): Movie {
         val movieEntity = db.moviesDao().getMovieById(idMovie)
         val genreEntities = db.moviesDao().getGenresByMovie()
