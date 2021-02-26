@@ -66,7 +66,7 @@ class MoviesListFragment : Fragment() {
         }
 
         viewModel.observeMoviesUpdates().observe(this.viewLifecycleOwner, {
-            MovieListAdapter(clickListener, it).submitList(it)
+            it.let { MovieListAdapter(clickListener, it).submitList(it) }
         })
 
         /** извлечения значений из SharedPreferences при запуске App */
@@ -80,12 +80,12 @@ class MoviesListFragment : Fragment() {
         }
 
         WorkManager.getInstance(requireContext()).cancelAllWork()
-        WorkManager.getInstance(requireContext()).enqueue(MovieUpdateRepository().movieUpdateWorker)
-//        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
-//            UNIQUE_WORK_NAME,
-//            ExistingPeriodicWorkPolicy.KEEP,
-//            MovieUpdateRepository().movieUpdateWorker
-//        )
+//        WorkManager.getInstance(requireContext()).enqueue(MovieUpdateRepository().movieUpdateWorker)
+        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+            UNIQUE_WORK_NAME,
+            ExistingPeriodicWorkPolicy.KEEP,
+            MovieUpdateRepository().movieUpdateWorker
+        )
     }
 
     override fun onAttach(context: Context) {

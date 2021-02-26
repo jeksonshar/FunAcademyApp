@@ -55,6 +55,8 @@ suspend fun loadMoviePopularList(): List<Movie> = withContext(Dispatchers.IO) {
             backdrop = baseUrl + "w500" + it.backdropPath,
             ratings = it.voteAverage ?: 0F,
             numberOfRatings = it.voteCount ?: 0,
+            releaseDate = it.releaseDate,
+            countries = loadMovieDetails(it.id ?: 0).countries,
             minimumAge = if (it.adult == true) 16 else 13,
             runtime = loadMovieRuntimePlace(it.id ?: 0),
             genres = if (it.genreIds != null) {
@@ -83,6 +85,8 @@ suspend fun loadMovieDetails(id: Int): Movie = withContext(Dispatchers.IO) {
         backdrop = baseUrl + "w500" + data.backdropPath,
         ratings = data.voteAverage ?: 0F,
         numberOfRatings = data.voteCount ?: 0,
+        releaseDate = data.releaseDate,
+        countries = (data.productionCountries.map { it.name }).joinToString(", "),
         minimumAge = if (data.adult == true) 16 else 13,
         runtime = 100,
         genres = data.genres ?: emptyList(),

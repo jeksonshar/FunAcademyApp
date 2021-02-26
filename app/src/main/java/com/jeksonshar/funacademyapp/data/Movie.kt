@@ -9,6 +9,8 @@ data class Movie(
     val backdrop: String,
     val ratings: Float,
     val numberOfRatings: Int,
+    val releaseDate: String,
+    val countries: String,
     val minimumAge: Int,
     val runtime: Int,
     val genres: List<Genre>,

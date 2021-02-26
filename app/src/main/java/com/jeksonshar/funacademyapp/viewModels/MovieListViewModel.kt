@@ -2,10 +2,7 @@ package com.jeksonshar.funacademyapp.viewModels
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.jeksonshar.funacademyapp.db.room.SaveToRoom
 import com.jeksonshar.funacademyapp.data.Movie
 import com.jeksonshar.funacademyapp.db.room.Converters
@@ -15,6 +12,7 @@ import com.jeksonshar.funacademyapp.network.loadMoviePopularList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 
 class MovieListViewModel(private val application: Application) : ViewModel() {

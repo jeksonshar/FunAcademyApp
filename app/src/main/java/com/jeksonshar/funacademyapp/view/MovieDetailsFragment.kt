@@ -64,6 +64,8 @@ class MovieDetailsFragment : Fragment() {
         val tagMovie = view.findViewById<TextView>(R.id.tagMovieView)
         val ratingBar = view.findViewById<RatingBar>(R.id.ratingBarOfMovie)
         val reviewsMovie = view.findViewById<TextView>(R.id.reviewsMovieView)
+        val releaseDateMovie = view.findViewById<TextView>(R.id.releaseDate)
+        val productionCountries = view.findViewById<TextView>(R.id.countries)
         val descriptionMovie = view.findViewById<TextView>(R.id.descriptionMovieView)
 
         backButton.setOnClickListener {
@@ -82,6 +84,10 @@ class MovieDetailsFragment : Fragment() {
             ratingBar.rating = movie.ratings / 2
             tmp = "${movie.numberOfRatings}  ${view.resources.getString(R.string.reviews)}"
             reviewsMovie.text = tmp
+            tmp = "${view.resources.getString(R.string.release_date)}  ${movie.releaseDate}"
+            releaseDateMovie.text = tmp
+            tmp ="${view.resources.getString(R.string.countries)}  ${movie.countries}"
+            productionCountries.text = tmp
             descriptionMovie.text = movie.overview
 
             /**  в случае, когда список актеров пуст, скрываем TextView - Cast и RecyclerView,

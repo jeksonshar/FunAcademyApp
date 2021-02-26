@@ -1,5 +1,6 @@
 package com.jeksonshar.funacademyapp.db.room
 
+import androidx.lifecycle.asLiveData
 import com.jeksonshar.funacademyapp.data.Movie
 import com.jeksonshar.funacademyapp.db.room.models.ActorEntity
 import com.jeksonshar.funacademyapp.db.room.models.GenreEntity

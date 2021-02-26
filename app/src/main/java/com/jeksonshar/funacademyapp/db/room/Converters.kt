@@ -21,6 +21,8 @@ object Converters {
             backdrop = movie.backdrop,
             ratings = movie.ratings,
             numberOfRatings = movie.numberOfRatings,
+            releaseDate = movie.releaseDate,
+            countries = movie.countries,
             minimumAge = movie.minimumAge,
             runtime = movie.runtime,
             genres = convertGenresIdToString(movie),
@@ -88,6 +90,8 @@ object Converters {
                 backdrop = backdrop,
                 ratings = ratings,
                 numberOfRatings = numberOfRatings,
+                releaseDate = releaseDate,
+                countries = countries,
                 minimumAge = minimumAge,
                 runtime = runtime,
                 genres = convertToListGenre(genres).map {

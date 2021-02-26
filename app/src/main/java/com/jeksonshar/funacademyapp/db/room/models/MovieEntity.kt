@@ -17,6 +17,8 @@ data class MovieEntity(
     val backdrop: String = "",
     val ratings: Float = 0F,
     val numberOfRatings: Int = 0,
+    val releaseDate: String,
+    val countries: String,
     val minimumAge: Int = 0,
     val runtime: Int = 0,
     val genres: String = "",
