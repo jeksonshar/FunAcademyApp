@@ -94,11 +94,11 @@ object Converters {
                 countries = countries,
                 minimumAge = minimumAge,
                 runtime = runtime,
-                genres = convertToListGenre(genres).map {
-                    convertToGenre(genresMap[it] ?: throw IllegalArgumentException("Genre not found"))
+                genres = convertToListGenre(genres).map { genreId ->
+                    convertToGenre(genresMap[genreId] ?: GenreEntity())
                 },
-                actors = convertToListActor(actors).map {
-                    convertToActor(actorsMap[it] ?: throw IllegalArgumentException("Actor not found"))
+                actors = convertToListActor(actors).map { actorId ->
+                    convertToActor(actorsMap[actorId] ?:  ActorEntity())
                 }
             )
         }

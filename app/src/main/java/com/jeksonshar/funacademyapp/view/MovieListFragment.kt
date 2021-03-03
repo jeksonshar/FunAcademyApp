@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,12 +28,43 @@ class MoviesListFragment : Fragment() {
 
     private var recycler: RecyclerView? = null
     private lateinit var viewModel: MovieListViewModel
+
     var savedIsFavorite: FavoriteSharedPreferences? = null
     private var noInternetDialog: NoInternetConnectionListDialog? = null
+    private var recyclerPosition: Parcelable? = null
+
+    private var clickListener: MovieFragmentClickListener? = object : MovieFragmentClickListener {
+        override fun addMovieDetailFragment(movie: Movie) {
+            if (!isConnectionAble()) {
+                showDialogNoInternetConnection(null)
+            }
+            parentFragmentManager.beginTransaction()
+                .addToBackStack(null)
+                .replace(
+                    R.id.fragment_container,
+                    MovieDetailsFragment.newInstance(movie.id)
+                )
+                .commit()
+        }
+
+        override fun changeFavoriteValue(movie: Movie) {
+            movie.isFavorite = !movie.isFavorite
+
+            /** сохранения значений в SharedPreferences если лайк, удаление если снять лайк */
+            if (movie.isFavorite) {
+                savedIsFavorite?.saveFavoriteMovie(movie)
+            } else {
+                savedIsFavorite?.deleteFavoriteMovie(movie)
+            }
+        }
+    }
+
+    private val adapter: MovieListAdapter = MovieListAdapter(clickListener)
 
     companion object {
         const val KEY_DIALOG_NO_INTERNET = "key_dialog_no_internet"
         const val UNIQUE_WORK_NAME = "uniqueWorkName"
+        const val RECYCLER_POSITION = "recyclerPosition"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,17 +93,6 @@ class MoviesListFragment : Fragment() {
             showDialogNoInternetConnection(savedInstanceState)
         }
 
-        viewModel.moviesLiveData.observe(this.viewLifecycleOwner) {
-            recycler?.adapter = MovieListAdapter(clickListener, it)
-        }
-
-        viewModel.observeMoviesUpdates().observe(this.viewLifecycleOwner, {
-            it.let { MovieListAdapter(clickListener, it).submitList(it) }
-        })
-
-        /** извлечения значений из SharedPreferences при запуске App */
-        savedIsFavorite?.getFavoriteMovies()
-
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             recycler?.layoutManager = GridLayoutManager(view.context, 2)
         } else {
@@ -79,8 +100,20 @@ class MoviesListFragment : Fragment() {
                 LinearLayoutManager(view.context, RecyclerView.HORIZONTAL, false)
         }
 
+        recycler?.adapter = adapter
+
+        viewModel.observeAllMoviesByPopular().observe(this.viewLifecycleOwner) {
+            if (savedInstanceState != null) {
+                recyclerPosition = savedInstanceState.getParcelable(RECYCLER_POSITION)
+                recycler?.layoutManager?.onRestoreInstanceState(recyclerPosition)
+            }
+            adapter.submitList(it)
+        }
+
+        /** извлечения значений из SharedPreferences при запуске App */
+        savedIsFavorite?.getFavoriteMovies()
+
         WorkManager.getInstance(requireContext()).cancelAllWork()
-//        WorkManager.getInstance(requireContext()).enqueue(MovieUpdateRepository().movieUpdateWorker)
         WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
             UNIQUE_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
@@ -104,6 +137,7 @@ class MoviesListFragment : Fragment() {
         super.onSaveInstanceState(outState)
 
         outState.putSerializable(KEY_DIALOG_NO_INTERNET, noInternetDialog)
+        outState.putParcelable(RECYCLER_POSITION, recycler?.layoutManager?.onSaveInstanceState())
     }
 
     private fun isConnectionAble(): Boolean {
@@ -123,33 +157,6 @@ class MoviesListFragment : Fragment() {
         } else {
             noInternetDialog = savedInstanceState
                 .getSerializable(KEY_DIALOG_NO_INTERNET) as NoInternetConnectionListDialog
-        }
-    }
-
-    private var clickListener: MovieFragmentClickListener? = object : MovieFragmentClickListener {
-
-        override fun addMovieDetailFragment(movie: Movie) {
-            if (!isConnectionAble()) {
-                showDialogNoInternetConnection(null)
-            }
-            parentFragmentManager.beginTransaction()
-                .addToBackStack(null)
-                .replace(
-                    R.id.fragment_container,
-                    MovieDetailsFragment.newInstance(movie.id)
-                )
-                .commit()
-        }
-
-        override fun changeFavoriteValue(movie: Movie) {
-            movie.isFavorite = !movie.isFavorite
-
-            /** сохранения значений в SharedPreferences если лайк, удаление если снять лайк */
-            if (movie.isFavorite) {
-                savedIsFavorite?.saveFavoriteMovie(movie)
-            } else {
-                savedIsFavorite?.deleteFavoriteMovie(movie)
-            }
         }
     }
 }

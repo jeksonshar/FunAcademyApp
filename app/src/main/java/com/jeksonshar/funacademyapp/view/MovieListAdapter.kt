@@ -18,13 +18,12 @@ import com.jeksonshar.funacademyapp.data.Movie
 import com.jeksonshar.funacademyapp.db.FavoriteSharedPreferences
 
 class MovieListAdapter(
-    private val listener: MovieFragmentClickListener?,
-    private var movieList: List<Movie>
+    private val listener: MovieFragmentClickListener?
 ) : ListAdapter<Movie, MovieListViewHolder>(MoviesComparator()) {
 
-    override fun getItemCount(): Int = movieList.size
-
-    override fun getItem(position: Int): Movie = movieList[position]
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
         return MovieListViewHolder(
@@ -90,7 +89,7 @@ class MovieListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 class MoviesComparator : DiffUtil.ItemCallback<Movie>() {
     override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-        return oldItem === newItem
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {

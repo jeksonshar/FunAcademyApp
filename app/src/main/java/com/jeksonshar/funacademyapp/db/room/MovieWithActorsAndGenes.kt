@@ -6,12 +6,12 @@ import com.jeksonshar.funacademyapp.db.room.models.GenreEntity
 import com.jeksonshar.funacademyapp.db.room.models.MovieEntity
 
 data class MovieWithActorsAndGenes(
-    @Embedded
+//    @Embedded
     val movieEntity: MovieEntity,
 
-    @Embedded
+//    @Embedded
     val genres: List<GenreEntity>,
 
-    @Embedded
+//    @Embedded
     val actors: List<ActorEntity>
 )

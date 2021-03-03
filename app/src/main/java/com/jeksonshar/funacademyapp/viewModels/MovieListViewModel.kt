@@ -9,16 +9,10 @@ import com.jeksonshar.funacademyapp.db.room.Converters
 import com.jeksonshar.funacademyapp.db.room.MovieDataBase
 import com.jeksonshar.funacademyapp.db.room.MovieWithActorsAndGenes
 import com.jeksonshar.funacademyapp.network.loadMoviePopularList
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.IOException
 
 class MovieListViewModel(private val application: Application) : ViewModel() {
-
-    private val _moviesLiveData = MutableLiveData<List<Movie>>()
-    val moviesLiveData: LiveData<List<Movie>> = _moviesLiveData
 
     val db: MovieDataBase by lazy {
         MovieDataBase.createMovieDB(application.applicationContext)
@@ -28,36 +22,15 @@ class MovieListViewModel(private val application: Application) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            val deffer = viewModelScope.async(Dispatchers.IO) {
-                var movies = emptyList<Movie>()
-                val cacheMovies = getMoviesByPopularFromRoom().value
-                if (!cacheMovies.isNullOrEmpty()) {
-                    movies = cacheMovies
-                }
-                movies
-            }
+            var apiMovies = emptyList<Movie>()
             try {
-                _moviesLiveData.value = deffer.await()
-            } catch (e: IOException) {
-                Log.d("Смотри - ", "AndroidRuntime: FATAL EXCEPTION ListViewModel")
-            }
-        }
-
-        viewModelScope.launch {
-            val deffer = viewModelScope.async(Dispatchers.IO) {
-                val apiMovies = loadMoviePopularList()
+                apiMovies = loadMoviePopularList()
+            } catch (e: Exception) {
+                Log.d("Смотри - ", "EXCEPTION  ListViewModel: нет данных от API")
+            } finally {
                 if (!apiMovies.isNullOrEmpty()) {
                     saveData.saveMoviesToRoom(apiMovies)
                 }
-                getMoviesByPopularFromRoom()
-            }
-            try {
-                val resDefer = deffer.await().value
-                if (!resDefer.isNullOrEmpty()) {
-                    _moviesLiveData.value = resDefer!!
-                }
-            } catch (e: IOException) {
-                Log.d("Смотри - ", "EXCEPTION  ListViewModel: нет данных от API")
             }
         }
     }
@@ -67,7 +40,7 @@ class MovieListViewModel(private val application: Application) : ViewModel() {
         super.onCleared()
     }
 
-    private suspend fun getMoviesByPopularFromRoom(): LiveData<List<Movie>> {
+    private suspend fun getMoviesByPopularFromRoom(): List<Movie> {
         val movies: MutableList<Movie> = ArrayList()
 
         val movieEntities = db.moviesDao().getAllMoviesByPopular()
@@ -82,15 +55,13 @@ class MovieListViewModel(private val application: Application) : ViewModel() {
             )
             movies.add(Converters.convertToMovie(movieWithActorsAndGenes))
         }
-        return MutableLiveData(movies)
+        return movies
     }
 
-    // ??????????
-    fun observeMoviesUpdates(): LiveData<List<Movie>> {
-        var observableMovies: LiveData<List<Movie>> = MutableLiveData()
-        viewModelScope.launch {
-            observableMovies = getMoviesByPopularFromRoom()
-        }
-        return observableMovies
+    fun observeAllMoviesByPopular(): LiveData<List<Movie>> {
+        return db.moviesDao().observeAllMoviesByPopular().map {
+            getMoviesByPopularFromRoom()
+
+        }.asLiveData()
     }
 }

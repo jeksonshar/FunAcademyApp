@@ -1,6 +1,5 @@
 package com.jeksonshar.funacademyapp.db.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.jeksonshar.funacademyapp.db.room.models.ActorEntity
 import com.jeksonshar.funacademyapp.db.room.models.GenreEntity
@@ -12,6 +11,9 @@ interface MovieDao {
 
     @Query("SELECT * FROM movies ORDER BY popularity DESC")
     suspend fun getAllMoviesByPopular(): List<MovieEntity>
+
+    @Query("SELECT * FROM movies ORDER BY popularity DESC")
+    fun observeAllMoviesByPopular(): Flow<List<MovieEntity>>
 
     @Query("SELECT * FROM genres")
     suspend fun getGenresByMovie(): List<GenreEntity>
