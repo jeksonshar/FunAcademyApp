@@ -107,7 +107,9 @@ class MoviesListFragment : Fragment() {
                 recyclerPosition = savedInstanceState.getParcelable(RECYCLER_POSITION)
                 recycler?.layoutManager?.onRestoreInstanceState(recyclerPosition)
             }
+            val s = (recycler?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
             adapter.submitList(it)
+            recycler?.layoutManager?.scrollToPosition(s)
         }
 
         /** извлечения значений из SharedPreferences при запуске App */

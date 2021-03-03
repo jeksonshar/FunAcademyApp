@@ -22,15 +22,13 @@ class MovieListViewModel(private val application: Application) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            var apiMovies = emptyList<Movie>()
             try {
-                apiMovies = loadMoviePopularList()
-            } catch (e: Exception) {
-                Log.d("Смотри - ", "EXCEPTION  ListViewModel: нет данных от API")
-            } finally {
+                val apiMovies = loadMoviePopularList()
                 if (!apiMovies.isNullOrEmpty()) {
                     saveData.saveMoviesToRoom(apiMovies)
                 }
+            } catch (e: Exception) {
+                Log.d("Смотри - ", "EXCEPTION  ListViewModel: нет данных от API")
             }
         }
     }
