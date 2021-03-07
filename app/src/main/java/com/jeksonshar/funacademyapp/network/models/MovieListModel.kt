@@ -36,7 +36,7 @@ data class MovieItemModel(
     @SerialName("release_date")
     val releaseDate: String,
     @SerialName("popularity")
-    val popularity: Float,
+    val popularity: Float? = null,
     @SerialName("vote_average")
     val voteAverage: Float? = null,
     @SerialName("id")

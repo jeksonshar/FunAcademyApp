@@ -1,10 +1,10 @@
 package com.jeksonshar.funacademyapp.db.room.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
-@Entity(tableName = "actors")
+@Entity(
+    tableName = "actors"
+)
 data class ActorEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")

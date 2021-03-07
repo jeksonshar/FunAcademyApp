@@ -2,6 +2,8 @@
 <resources>
     <string name="back_text">Назад</string>
     <string name="reviews">ОТЗЫВОВ</string>
+    <string name="release_date">Дата выхода:</string>
+    <string name="countries">Страна:</string>
     <string name="storyline_movie">Сюжет:</string>
     <string name="cast_movie">В ролях:</string>
     <string name="min">МИН</string>

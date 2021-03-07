@@ -22,7 +22,7 @@ data class MovieDetailsModel(
 	@SerialName("genres")
 	val genres: List<Genre>? = emptyList(),
 	@SerialName("popularity")
-	val popularity: Float,
+	val popularity: Float? = null,
 	@SerialName("production_countries")
 	val productionCountries: List<ProductionCountriesItem>,
 	@SerialName("id")

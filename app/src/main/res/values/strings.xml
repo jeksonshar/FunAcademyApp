@@ -9,7 +9,11 @@
     <string name="tag_movie" translatable="false">Action, Adventure, Fantasy</string>
     <string name="background_movie" translatable="false">background</string>
     <string name="review_movie" translatable="false">125 REVIEWS</string>
+    <string name="release_date_string" translatable="false">Release date: 2020-12-03</string>
+    <string name="countries_string" translatable="false">Countries: Japan, England, United States of America</string>
     <string name="reviews">REVIEWS</string>
+    <string name="release_date">Release date:</string>
+    <string name="countries">Country:</string>
     <string name="storyline_movie">Storyline</string>
     <string name="description_detail_movie" translatable="false">
         After the devastating events of Avengers: Infinity War,
