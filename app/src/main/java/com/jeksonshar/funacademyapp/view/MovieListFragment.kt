@@ -31,7 +31,7 @@ class MoviesListFragment : Fragment() {
 
     var savedIsFavorite: FavoriteSharedPreferences? = null
     private var noInternetDialog: NoInternetConnectionListDialog? = null
-    private var recyclerPosition: Parcelable? = null
+    private var recyclerSavedParcelable: Parcelable? = null
 
     private var clickListener: MovieFragmentClickListener? = object : MovieFragmentClickListener {
         override fun addMovieDetailFragment(movie: Movie) {
@@ -64,7 +64,7 @@ class MoviesListFragment : Fragment() {
     companion object {
         const val KEY_DIALOG_NO_INTERNET = "key_dialog_no_internet"
         const val UNIQUE_WORK_NAME = "uniqueWorkName"
-        const val RECYCLER_POSITION = "recyclerPosition"
+        const val RECYCLER_SAVED_PARCELABLE = "recycled_saved_parcelable"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,12 +104,10 @@ class MoviesListFragment : Fragment() {
 
         viewModel.observeAllMoviesByPopular().observe(this.viewLifecycleOwner) {
             if (savedInstanceState != null) {
-                recyclerPosition = savedInstanceState.getParcelable(RECYCLER_POSITION)
-                recycler?.layoutManager?.onRestoreInstanceState(recyclerPosition)
+                recyclerSavedParcelable = savedInstanceState.getParcelable(RECYCLER_SAVED_PARCELABLE)
+                recycler?.layoutManager?.onRestoreInstanceState(recyclerSavedParcelable)
             }
-            val s = (recycler?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
             adapter.submitList(it)
-            recycler?.layoutManager?.scrollToPosition(s)
         }
 
         /** извлечения значений из SharedPreferences при запуске App */
@@ -139,7 +137,7 @@ class MoviesListFragment : Fragment() {
         super.onSaveInstanceState(outState)
 
         outState.putSerializable(KEY_DIALOG_NO_INTERNET, noInternetDialog)
-        outState.putParcelable(RECYCLER_POSITION, recycler?.layoutManager?.onSaveInstanceState())
+        outState.putParcelable(RECYCLER_SAVED_PARCELABLE, recycler?.layoutManager?.onSaveInstanceState())
     }
 
     private fun isConnectionAble(): Boolean {
