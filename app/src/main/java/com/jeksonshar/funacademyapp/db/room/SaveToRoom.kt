@@ -1,6 +1,5 @@
 package com.jeksonshar.funacademyapp.db.room
 
-import androidx.lifecycle.asLiveData
 import com.jeksonshar.funacademyapp.data.Movie
 import com.jeksonshar.funacademyapp.db.room.models.ActorEntity
 import com.jeksonshar.funacademyapp.db.room.models.GenreEntity
@@ -14,24 +13,25 @@ class SaveToRoom(val db: MovieDataBase) {
         val actorEntities: MutableList<ActorEntity> = ArrayList()
 
         for (movie in movies) {
-            movieEntities.add(Converters.convertToMovieEntity(movie))
+//            movieEntities.add(Converters.convertToMovieEntity(movie)).id) == null) {
+            db.moviesDao().insertMovie(Converters.convertToMovieEntity(movie))
             genreEntities.addAll(Converters.convertToGenreEntity(movie))
             actorEntities.addAll(Converters.convertToActorEntity(movie))
         }
 
-        if (!db.moviesDao().getAllMoviesByPopular().isNullOrEmpty()) {
-            db.moviesDao().deleteAllMovies()
-        }
+//        if (!db.moviesDao().getAllMoviesByPopular().isNullOrEmpty()) {
+//            db.moviesDao().deleteAllMovies()
+//        }
+//
+//        if (!db.moviesDao().getGenresByMovie().isNullOrEmpty()) {
+//            db.moviesDao().deleteGenres()
+//        }
+//
+//        if (!db.moviesDao().getActorsByMovie().isNullOrEmpty()) {
+//            db.moviesDao().deleteActors()
+//        }
 
-        if (!db.moviesDao().getGenresByMovie().isNullOrEmpty()) {
-            db.moviesDao().deleteGenres()
-        }
-
-        if (!db.moviesDao().getActorsByMovie().isNullOrEmpty()) {
-            db.moviesDao().deleteActors()
-        }
-
-        db.moviesDao().insertAllMovies(movieEntities)
+//        db.moviesDao().insertAllMovies(movieEntities)
         db.moviesDao().insertGenres(genreEntities)
         db.moviesDao().insertActors(actorEntities)
     }

@@ -18,7 +18,7 @@ suspend fun loadGenre(): List<Genre> {
 }
 
 suspend fun loadBaseUrlPlace(): String = withContext(Dispatchers.IO) {
-    return@withContext RetrofitModule.moviesApi.getConfiguration().images.secureBaseUrl ?: ""
+    return@withContext RetrofitModule.moviesApi.getConfiguration().images?.secureBaseUrl ?: ""
 }
 
 suspend fun loadMovieRuntimePlace(id: Int): Int = withContext(Dispatchers.IO) {
@@ -40,8 +40,16 @@ suspend fun loadActorsByMovie(id: Int): List<Actor> = withContext(Dispatchers.IO
 }
 
 suspend fun loadMoviePopularList(): List<Movie> = withContext(Dispatchers.IO) {
-    val data =
+    val data1Page =
         RetrofitModule.moviesApi.getMoviesPopular(Locale.getDefault().language.toString()).movies
+    val data2Page =
+        RetrofitModule.moviesApi.getMoviesPopularPage(Locale.getDefault().language.toString(), 2).movies
+    val data3Page =
+        RetrofitModule.moviesApi.getMoviesPopularPage(Locale.getDefault().language.toString(), 3).movies
+
+    val data = data1Page
+        ?.plus(data2Page ?: emptyList())
+        ?.plus(data3Page ?: emptyList())
     val genresMap = loadGenre().associateBy { it.id }
     val baseUrl = loadBaseUrlPlace()
 
@@ -55,7 +63,7 @@ suspend fun loadMoviePopularList(): List<Movie> = withContext(Dispatchers.IO) {
             backdrop = baseUrl + "w500" + it.backdropPath,
             ratings = it.voteAverage ?: 0F,
             numberOfRatings = it.voteCount ?: 0,
-            releaseDate = it.releaseDate,
+            releaseDate = it.releaseDate ?: "",
             countries = loadMovieDetails(it.id ?: 0).countries,
             minimumAge = if (it.adult == true) 16 else 13,
             runtime = loadMovieRuntimePlace(it.id ?: 0),
@@ -85,8 +93,10 @@ suspend fun loadMovieDetails(id: Int): Movie = withContext(Dispatchers.IO) {
         backdrop = baseUrl + "w500" + data.backdropPath,
         ratings = data.voteAverage ?: 0F,
         numberOfRatings = data.voteCount ?: 0,
-        releaseDate = data.releaseDate,
-        countries = (data.productionCountries.map { it.name }).joinToString(", "),
+        releaseDate = data.releaseDate ?: "",
+        countries = if(!data.productionCountries.isNullOrEmpty()) {
+                (data.productionCountries.map {it?.name ?: ""}).joinToString(", ")
+        } else "",
         minimumAge = if (data.adult == true) 16 else 13,
         runtime = 100,
         genres = data.genres ?: emptyList(),
