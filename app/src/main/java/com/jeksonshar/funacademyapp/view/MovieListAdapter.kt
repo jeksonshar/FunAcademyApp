@@ -18,11 +18,12 @@ import com.jeksonshar.funacademyapp.data.Movie
 import com.jeksonshar.funacademyapp.db.FavoriteSharedPreferences
 
 class MovieListAdapter(
+    private val movies: List<Movie>,
     private val listener: MovieFragmentClickListener?
 ) : ListAdapter<Movie, MovieListViewHolder>(MoviesComparator()) {
 
     override fun getItemId(position: Int): Long {
-        return position.toLong()
+        return movies[position].id.hashCode().toLong()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {

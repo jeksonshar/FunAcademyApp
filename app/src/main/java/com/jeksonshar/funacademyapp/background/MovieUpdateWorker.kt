@@ -23,7 +23,12 @@ class MovieUpdateWorker(context: Context, workerParameters: WorkerParameters) :
         return try {
             scope.launch {
                 val movies: MutableList<Movie> = ArrayList()
-                val apiMovies = loadMoviePopularList()
+                val apiMovies: List<Movie> = emptyList()
+                val sizeDB = db.moviesDao().getAllMoviesByPopular().size
+                for (page in 1..(sizeDB / 20)) {
+                    apiMovies.plus(loadMoviePopularList(page))
+                }
+
                 if (!apiMovies.isNullOrEmpty()) {
                     movies.addAll(apiMovies)
                     saveData.saveMoviesToRoom(movies)

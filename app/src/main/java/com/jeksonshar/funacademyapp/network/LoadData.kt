@@ -28,8 +28,7 @@ suspend fun loadMovieRuntimePlace(id: Int): Int = withContext(Dispatchers.IO) {
 
 suspend fun loadActorsByMovie(id: Int): List<Actor> = withContext(Dispatchers.IO) {
     val baseUrl = loadBaseUrlPlace()
-    val data =
-        RetrofitModule.moviesApi.getActorsByMovie(id, Locale.getDefault().language.toString()).cast
+    val data = RetrofitModule.moviesApi.getActorsByMovie(id, Locale.getDefault().language.toString()).cast
     return@withContext data?.map {
         Actor(
             id = it.id ?: 0,
@@ -39,17 +38,8 @@ suspend fun loadActorsByMovie(id: Int): List<Actor> = withContext(Dispatchers.IO
     } ?: emptyList()
 }
 
-suspend fun loadMoviePopularList(): List<Movie> = withContext(Dispatchers.IO) {
-    val data1Page =
-        RetrofitModule.moviesApi.getMoviesPopular(Locale.getDefault().language.toString()).movies
-    val data2Page =
-        RetrofitModule.moviesApi.getMoviesPopularPage(Locale.getDefault().language.toString(), 2).movies
-    val data3Page =
-        RetrofitModule.moviesApi.getMoviesPopularPage(Locale.getDefault().language.toString(), 3).movies
-
-    val data = data1Page
-        ?.plus(data2Page ?: emptyList())
-        ?.plus(data3Page ?: emptyList())
+suspend fun loadMoviePopularList(page: Int): List<Movie> = withContext(Dispatchers.IO) {
+    val data = RetrofitModule.moviesApi.getMoviesPopularPage(Locale.getDefault().language.toString(), page).movies
     val genresMap = loadGenre().associateBy { it.id }
     val baseUrl = loadBaseUrlPlace()
 

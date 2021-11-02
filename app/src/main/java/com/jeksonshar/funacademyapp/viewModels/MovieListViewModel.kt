@@ -9,6 +9,8 @@ import com.jeksonshar.funacademyapp.db.room.Converters
 import com.jeksonshar.funacademyapp.db.room.MovieDataBase
 import com.jeksonshar.funacademyapp.db.room.MovieWithActorsAndGenes
 import com.jeksonshar.funacademyapp.network.loadMoviePopularList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -19,11 +21,13 @@ class MovieListViewModel(private val application: Application) : ViewModel() {
     }
 
     private val saveData = SaveToRoom(db)
+    val showUpdateProgress = MutableLiveData<Boolean>()
+    val showToastNoMoviesToLoad = MutableLiveData(false)
 
     init {
         viewModelScope.launch {
             try {
-                val apiMovies = loadMoviePopularList()
+                val apiMovies = loadMoviePopularList(1)
                 if (!apiMovies.isNullOrEmpty()) {
                     saveData.saveMoviesToRoom(apiMovies)
                 }
@@ -59,7 +63,25 @@ class MovieListViewModel(private val application: Application) : ViewModel() {
     fun observeAllMoviesByPopular(): LiveData<List<Movie>> {
         return db.moviesDao().observeAllMoviesByPopular().map {
             getMoviesByPopularFromRoom()
-
         }.asLiveData()
+    }
+
+    suspend fun loadNewPage() {
+        showUpdateProgress.postValue(true)
+//        try {
+            val countOfLoadedMovies = db.moviesDao().getAllMoviesByPopular().size
+            val nextPage = (countOfLoadedMovies / 20) + 1
+            if (nextPage < 10) {
+                val apiMovies = loadMoviePopularList(nextPage)
+                if (!apiMovies.isNullOrEmpty()) {
+                    saveData.saveMoviesToRoom(apiMovies)
+                }
+            } else {
+                showToastNoMoviesToLoad.postValue(true)
+            }
+            showUpdateProgress.postValue(false)
+//        } catch (e: Exception) {
+//            Log.d("Смотри - ", "EXCEPTION  ListViewModel: нет данных от API")
+//        }
     }
 }

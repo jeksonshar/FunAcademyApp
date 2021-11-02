@@ -18,7 +18,7 @@ data class MovieDetailsModel(
 	@SerialName("backdrop_path")
 	val backdropPath: String? = null,
 	@SerialName("revenue")
-	val revenue: Int? = null,
+	val revenue: Float? = null,
 	@SerialName("genres")
 	val genres: List<Genre>? = null,
 	@SerialName("popularity")

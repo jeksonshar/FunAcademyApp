@@ -9,7 +9,9 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,11 +25,17 @@ import com.jeksonshar.funacademyapp.db.RepositoryProvider
 import com.jeksonshar.funacademyapp.data.Movie
 import com.jeksonshar.funacademyapp.viewModels.MovieListViewModel
 import com.jeksonshar.funacademyapp.viewModels.MovieListViewModelFactory
+import kotlinx.android.synthetic.main.fragment_movies_list.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MoviesListFragment : Fragment() {
 
     private var recycler: RecyclerView? = null
     private lateinit var viewModel: MovieListViewModel
+    private lateinit var adapter: MovieListAdapter
 
     var savedIsFavorite: FavoriteSharedPreferences? = null
     private var noInternetDialog: NoInternetConnectionListDialog? = null
@@ -59,8 +67,6 @@ class MoviesListFragment : Fragment() {
         }
     }
 
-    private val adapter: MovieListAdapter = MovieListAdapter(clickListener)
-
     companion object {
         const val KEY_DIALOG_NO_INTERNET = "key_dialog_no_internet"
         const val UNIQUE_WORK_NAME = "uniqueWorkName"
@@ -75,6 +81,7 @@ class MoviesListFragment : Fragment() {
             MovieListViewModelFactory(requireActivity().application)
         ).get(MovieListViewModel::class.java)
 
+        adapter = MovieListAdapter(viewModel.observeAllMoviesByPopular().value ?: emptyList(), clickListener)
         savedIsFavorite = RepositoryProvider.getInstanceFavoriteMovies(requireContext())
     }
 
@@ -102,11 +109,39 @@ class MoviesListFragment : Fragment() {
 
         recycler?.adapter = adapter
 
+        viewModel.showToastNoMoviesToLoad.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                Toast.makeText(context, "Нет страниц доступных к загрузке", Toast.LENGTH_LONG).show()
+                viewModel.showToastNoMoviesToLoad.value = false
+            }
+        })
+
+        viewModel.showUpdateProgress.observe(viewLifecycleOwner, Observer {
+            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                swipeRefresh.isRefreshing = it
+            }
+        })
+
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            swipeRefresh.setOnRefreshListener { GlobalScope.launch(Dispatchers.IO) { viewModel.loadNewPage() } }
+        }
+
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            refresh.setOnClickListener {
+                GlobalScope.launch {
+                    withContext(Dispatchers.Main) { progressBarWhileLoadNextPage.visibility = View.VISIBLE }
+                    withContext(Dispatchers.IO) { viewModel.loadNewPage() }
+                    withContext(Dispatchers.Main) { progressBarWhileLoadNextPage.visibility = View.INVISIBLE }
+                }
+            }
+        }
+
         viewModel.observeAllMoviesByPopular().observe(this.viewLifecycleOwner) {
             if (savedInstanceState != null) {
                 recyclerSavedParcelable = savedInstanceState.getParcelable(RECYCLER_SAVED_PARCELABLE)
                 recycler?.layoutManager?.onRestoreInstanceState(recyclerSavedParcelable)
             }
+            if(it.isNotEmpty()) progressBarWhileListEmpty.visibility = View.GONE
             adapter.submitList(it)
         }
 

@@ -124,7 +124,8 @@ object Converters {
         val actorListString = actorString.split(",")
         val actorsListInt: MutableList<Int> = ArrayList()
         for (actor in actorListString) {
-            actorsListInt.add(actor.toInt())
+            val actors: Int = if (actor != "") actor.toInt() else 0     // проверка на пустой список актеров
+            actorsListInt.add(actors)
         }
         return actorsListInt
     }
