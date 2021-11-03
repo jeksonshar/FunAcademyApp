@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -16,13 +18,13 @@ import com.jeksonshar.funacademyapp.data.Movie
 import com.jeksonshar.funacademyapp.db.FavoriteSharedPreferences
 
 class MovieListAdapter(
-    private val listener: MovieFragmentClickListener?,
-    private var movieList: List<Movie>
-) : RecyclerView.Adapter<MovieListViewHolder>() {
+    private val movies: List<Movie>,
+    private val listener: MovieFragmentClickListener?
+) : ListAdapter<Movie, MovieListViewHolder>(MoviesComparator()) {
 
-    override fun getItemCount(): Int = movieList.size
-
-    private fun getItem(position: Int): Movie = movieList[position]
+    override fun getItemId(position: Int): Long {
+        return movies[position].id.hashCode().toLong()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
         return MovieListViewHolder(
@@ -83,5 +85,15 @@ class MovieListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         } else {
             isLiked.setImageResource(R.drawable.like_off)
         }
+    }
+}
+
+class MoviesComparator : DiffUtil.ItemCallback<Movie>() {
+    override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        return oldItem.id == newItem.id
     }
 }

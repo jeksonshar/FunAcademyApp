@@ -125,6 +125,32 @@
                 tools:text="@string/review_movie" />
 
             <TextView
+                android:id="@+id/releaseDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/app_margin_16"
+                android:layout_marginEnd="@dimen/app_margin_16"
+                android:layout_marginTop="@dimen/app_margin_8"
+                android:textColor="@color/gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reviewsMovieView"
+                tools:text="@string/release_date_string" />
+
+            <TextView
+                android:id="@+id/countries"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/app_margin_16"
+                android:layout_marginEnd="@dimen/app_margin_16"
+                android:layout_marginTop="@dimen/app_margin_8"
+                android:textColor="@color/gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/releaseDate"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@string/countries_string" />
+
+            <TextView
                 android:id="@+id/storyLineMovieView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -136,7 +162,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/reviewsMovieView" />
+                app:layout_constraintTop_toBottomOf="@id/countries" />
 
             <TextView
                 android:id="@+id/descriptionMovieView"

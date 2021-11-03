@@ -20,6 +20,12 @@ interface MoviesAPI {
         @Query("language") systemLang: String
     ): MovieListModel
 
+    @GET("movie/popular")
+    suspend fun getMoviesPopularPage(
+        @Query("language") systemLang: String,
+        @Query("page") page: Int
+    ): MovieListModel
+
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(
         @Path("movie_id") movieId: Int,
